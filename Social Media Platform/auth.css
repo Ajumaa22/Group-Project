@@ -43,6 +43,7 @@ body {
 
 .auth-card button {
   padding: 0.9rem 1rem;
+  margin-top: 10px;
   border: none;
   border-radius: 10px;
   background: #6c63ff;
@@ -54,4 +55,77 @@ body {
 .auth-card p {
   margin-top: 1rem;
   text-align: center;
+}
+
+.container{
+    width:100%;
+    max-width:400px;
+}
+
+.register-card{
+    background:white;
+    padding:40px;
+    border-radius:12px;
+    box-shadow:0 10px 25px rgba(0,0,0,0.1);
+    text-align:center;
+}
+
+.register-card h1{
+    margin-bottom:10px;
+}
+
+.subtitle{
+    color:#777;
+    margin-bottom:25px;
+}
+
+.input-group{
+    text-align:left;
+    margin-bottom:15px;
+}
+
+.input-group label{
+    font-size:14px;
+    margin-bottom:5px;
+    display:block;
+}
+
+.input-group input{
+    width:100%;
+    padding:10px;
+    border-radius:6px;
+    border:1px solid #ccc;
+    font-size:14px;
+}
+
+.input-group input:focus{
+    outline:none;
+    border-color:#4a6cff;
+}
+
+.register-btn{
+    width:100%;
+    padding:12px;
+    border:none;
+    border-radius:6px;
+    background:#4a6cff;
+    color:white;
+    font-size:16px;
+    cursor:pointer;
+    margin-top:10px;
+}
+
+.register-btn:hover{
+    background:#364fc7;
+}
+
+.login-link{
+    margin-top:20px;
+    font-size:14px;
+}
+
+.login-link a{
+    color:#4a6cff;
+    text-decoration:none;
+    font-weight:bold;
 }
