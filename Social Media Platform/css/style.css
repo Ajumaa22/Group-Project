@@ -30,14 +30,14 @@ body::before {
 }
 .logo {
   position: absolute;
-  top: -550px;
+  top: -450px;
   left: 50%;
   transform: translateX(-50%);
 }
-
+.logo,
 .logo img {
-  width: 500px; 
-  
+  width: 400px; 
+  pointer-events: none;
 }
 .auth-card {
   width: 100%;
@@ -58,7 +58,7 @@ body::before {
   font-weight: 600;
 }
 .auth-card h1 {
-  font-size:x-large;
+  font-size:25px;
   margin-bottom: 0.5rem;
   text-align: center;
   color: #7a7b7c;
@@ -66,7 +66,7 @@ body::before {
   font-weight: 500;
 }
 h1:hover{
-    color:rgb(163, 182, 219);
+    color:rgb(212, 199, 141);
 }
 
 .title-row {
@@ -107,7 +107,7 @@ h1:hover{
 }
 
 button:hover{
-    background:rgb(163, 182, 219);
+    background:rgb(177, 165, 113);
 }
 
 .auth-card p {
@@ -159,14 +159,14 @@ a:hover{
 }
 /*--------------------Register styles-----------------------------------*/
 .auth-card h2 {
-  font-size:x-large;
+  font-size:25px;
   margin-bottom: 0.5rem;
   text-align: center;
   color: #354e75;
   font-weight:bold;
 }
 h2:hover{
-    color:rgb(163, 182, 219);
+    color:rgb(212, 199, 141);
 }
     
 .input-group{
@@ -202,7 +202,7 @@ h2:hover{
 }
 
 .register-btn:hover{
-    background:rgb(163, 182, 219);
+    background:rgb(177, 165, 113);
 }
 .btn-row{
     display: flex;
