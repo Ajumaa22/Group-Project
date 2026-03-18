@@ -58,7 +58,7 @@ body::before {
   font-weight: 600;
 }
 .auth-card h1 {
-  font-size:25px;
+  font-size:22.5px;
   margin-bottom: 0.5rem;
   text-align: center;
   color: #7a7b7c;
@@ -159,7 +159,7 @@ a:hover{
 }
 /*--------------------Register styles-----------------------------------*/
 .auth-card h2 {
-  font-size:25px;
+  font-size:22.5px;
   margin-bottom: 0.5rem;
   text-align: center;
   color: #354e75;
