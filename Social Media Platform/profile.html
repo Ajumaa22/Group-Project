@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>User Profile</title>
+</head>
+
+<body>
+
+
+<nav>
+    <a href="#">Home</a>
+    <a href="#">Profile</a>
+    <a href="#">Posts</a>
+</nav>
+
+
+<main>
+
+    
+    <section>
+        <header>
+            <img src="profile-photo.jpg" alt="Profile Photo" style="width:100px; height:100px; border-radius:50%;">
+            <h1>john_doe</h1>
+            <p>Web development student who enjoys building websites.</p>
+        </header>
+
+       
+        <section>
+            <h2>Edit Profile</h2>
+
+            <form enctype="multipart/form-data">
+                <label>Username:</label>
+                <input type="text" name="username" placeholder="enter username">
+                    
+                <br><br>
+
+                <label>Bio:</label>
+                <textarea name="bio" placeholder="say somthing about yourself"></textarea>
+
+                <br><br>
+
+                <label>Profile Photo:</label>
+                <input type="file" name="profile_photo" accept="image/*">
+
+                <br><br>
+
+                <button type="submit">Save Changes</button>
+            </form>
+        </section>
+    </section>
+
+   
+    <section>
+        <h2>User Posts</h2>
+
+        <section>
+            <h3>Create New Post</h3>
+            <form enctype="multipart/form-data">
+                <label>Post Text:</label>
+                <textarea name="post_text" placeholder="What's on your mind?"></textarea>
+                <br><br>
+                <label>Upload Photo:</label>
+                <input type="file" name="photo" accept="image/*">
+                <br><br>
+                <button type="submit">Post</button>
+            </form>
+        </section>
+
+      
+
+        
+
+    </section>
+
+</main>
+
+
+<footer>
+    <p>© 2026 Social media Platform</p>
+</footer>
+
+</body>
+</html>
