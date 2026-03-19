@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>News Feed</title>
+</head>
+
+<body>
+
+  <!-- ================= NAVBAR ================= -->
+  <header id="navbar">
+
+    <div class="nav-left">
+      <h2 id="logo">Momenta</h2>
+    </div>
+
+    <div class="nav-center">
+      <input 
+        type="search" 
+        id="searchInput" 
+        placeholder="Search users..." 
+        autocomplete="off"
+      >
+      <div id="searchResults"></div>
+    </div>
+
+    <div class="nav-right">
+      <button id="logout-btn">Logout</button>
+    </div>
+
+  </header>
+
+
+  <!-- ================= MAIN LAYOUT ================= -->
+  <div id="layout">
+
+    <!-- ========== SIDEBAR ========== -->
+    <aside id="sidebar">
+
+      <!-- Navigation -->
+      <nav id="mainNav">
+        <ul>
+          <li class="nav-item active" id="homeNav">
+            <span class="icon">🏠</span>
+            <span class="text">Home</span>
+          </li>
+
+          <li class="nav-item" id="profileNav">
+            <span class="icon">👤</span>
+            <span class="text">Profile</span>
+          </li>
+        </ul>
+      </nav>
+
+      <!-- Following -->
+      <div id="followingSection">
+        <h4 class="section-title">Following</h4>
+
+        <ul id="followingList">
+          <!-- JS will insert followed users here -->
+        </ul>
+      </div>
+
+    </aside>
+
+
+    <!-- ========== FEED ========== -->
+    <main id="feed">
+
+      <!-- Create Post -->
+      <section id="createPost">
+        <div class="create-post-box">
+
+          <textarea 
+            id="postInput" 
+            class="post-input" 
+            placeholder="What's on your mind?"
+          ></textarea>
+
+          <button id="submitPostBtn" class="submit-post">
+            Post
+          </button>
+
+        </div>
+      </section>
+
+
+      <!-- Posts -->
+      <section id="postsContainer">
+        <!-- Posts will be added dynamically -->
+      </section>
+
+    </main>
+
+  </div>
+
+
+  <!-- ================= POST TEMPLATE ================= -->
+  <template id="postTemplate">
+
+    <article class="post-card">
+
+      <!-- Header -->
+      <div class="post-header">
+        <span class="username"></span>
+        <span class="post-time"></span>
+      </div>
+
+      <!-- Content -->
+      <div class="post-content">
+        <p class="post-text"></p>
+      </div>
+
+      <!-- Like -->
+      <div class="post-actions">
+        <button class="like-btn">👍 Like</button>
+        <span class="like-count">0</span>
+      </div>
+
+      <!-- Comments -->
+      <div class="comments-section">
+
+        <div class="comments-list"></div>
+
+        <input 
+          type="text" 
+          class="comment-input" 
+          placeholder="Write a comment..."
+        >
+
+      </div>
+
+    </article>
+
+  </template>
+
+    <!-- ================= FOOTER ================= -->
+    <footer id="footer">
+
+    <div class="footer-container">
+
+        <!-- Left -->
+        <div class="footer-left">
+        <h3 id="footerLogo">Momenta</h3>
+        <p class="footer-text">© 2026 Momenta. All rights reserved.</p>
+        </div>
+
+        <!-- Center -->
+        <div class="footer-center">
+        <a href="#" class="footer-link">About</a>
+        <a href="#" class="footer-link">Privacy</a>
+        <a href="#" class="footer-link">Terms</a>
+        </div>
+
+        <!-- Right -->
+        <div class="footer-right">
+        <p class="footer-text">Contact: support@momenta.com</p>
+        </div>
+
+    </div>
+
+    </footer>
+
+</body>
+</html>
