@@ -17,7 +17,7 @@
                 <a href="login.html"><h1>Login</h1></a>
                 <a href="register.html"><h2>Register</h2></a>
             </div>
-            <form>
+            <form id="register-form">
                 <div class="input-group">
                     <label for="username">Username</label>
                     <input type="text" id="username" required>
@@ -30,7 +30,7 @@
                     <label for="dob">Date of Birth</label>
                     <input type="date" id="dob">
                     <div class="btn-row">
-                    <button class="register-btn" >Register</button>
+                    <button class="register-btn" type="submit">Register</button>
                     <button class="register-btn" type="reset">Reset</button>
                     </div>
                 </div>
@@ -39,5 +39,6 @@
         <p class="login-link">Alredy have an Account? <a href="login.html">Login</a></p>
         </section>
     </main>
+    <script src="js/auth.js"></script>
 </body>
 </html>

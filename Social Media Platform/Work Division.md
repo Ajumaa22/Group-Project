@@ -1,6 +1,4 @@
-
 ---
-
 # 🧑‍💻 Work Division (Updated)
 
 ### **Maissa – Authentication & Session Management**
@@ -17,9 +15,7 @@
 
 * `register.html`, `login.html`
 * JS portions in `app.js` related to auth/session
-
 ---
-
 ### **Aya – CSS & UI/UX Design**
 
 **Responsibilities:**
@@ -79,13 +75,13 @@ Each member should tick these items as they complete them to track progress:
 
 ### **Maissa Checklist – Auth & Sessions**
 
-* [ ] Register page implemented with form validation
-* [ ] Login page implemented with form validation
-* [ ] Users stored in `localStorage` as JSON
-* [ ] Session (`currentUser`) created on login
-* [ ] Logout implemented
-* [ ] Protected routes for pages that require login
-* [ ] Redirect to login if not logged in
+* [X] Register page implemented with form validation
+* [X] Login page implemented with form validation
+* [X] Users stored in `localStorage` as JSON
+* [X] Session (`currentUser`) created on login
+* [X] Logout implemented
+* [X] Protected routes for pages that require login
+* [X] Redirect to login if not logged in
 
 ---
 
@@ -125,6 +121,3 @@ Each member should tick these items as they complete them to track progress:
 * [ ] Integration with posts & comments system
 
 ---
-
-
-
