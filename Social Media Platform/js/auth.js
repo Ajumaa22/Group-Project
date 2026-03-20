@@ -89,7 +89,6 @@ if (loginForm){
             return;
         }
         setCurrentUser(matchUser);
-        alert("Login successful!");
         window.location.href="profile.html";
     });
 }
