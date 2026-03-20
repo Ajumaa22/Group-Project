@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>User Profile</title>
+    <link rel="stylesheet" href="css/profile.css">
+</head>
+<body>
+    <main>
+        <section>
+            <h2>Edit Profile</h2>
+
+            <form enctype="multipart/form-data">
+                <label>Username:</label>
+                <input type="text" name="username" placeholder="enter username">
+                    
+                <br><br>
+
+                <label>Bio:</label>
+                <textarea name="bio" placeholder="say somthing about yourself"></textarea>
+
+                <br><br>
+
+                <label>Profile Photo:</label>
+                <input type="file" name="profile_photo" accept="image/*">
+
+                <br><br>
+
+                <button type="submit">Save Changes</button>
+            </form>
+        </section>
+    </main>
+</body>
+</html>
