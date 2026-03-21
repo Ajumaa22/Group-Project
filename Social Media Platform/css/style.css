@@ -16,9 +16,9 @@ body::before {
   position: fixed;
   inset: 0;
 
-  background: url("../Icons/image.png") no-repeat center/cover;
+  background: url("../Icons/IMG_1041.PNG") no-repeat center/cover;
 
-  opacity: 1.2;   
+  opacity: 3;   
 
   z-index: -1; 
 }
@@ -27,12 +27,14 @@ body::before {
   display: grid;
   place-items: center;
   padding: 2rem 1rem;
+  position: relative;
 }
 .logo {
   position: absolute;
   top: -450px;
   left: 50%;
   transform: translateX(-50%);
+  z-index: 1;
 }
 .logo,
 .logo img {
@@ -43,14 +45,28 @@ body::before {
   width: 100%;
   max-width: 400px;
   height: auto;
-  background-color: rgba(255, 255, 255, 0.623);
+  background-color: rgba(255, 255, 255, 0.705);
   padding: 2rem;
   border-radius: 16px;
   box-shadow: 0 10px 30px rgb(124, 135, 158);
   margin-top: 250px;
   position: relative;
+  z-index: 1;
   
-  
+}
+
+.auth-page::before{
+    content: "";
+    position: absolute;
+    width: 600px;
+    height: 850px;
+
+    background: rgba(255, 255, 255, 0.3); /* or any color */
+    border-radius: 30px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 0;
 }
 .auth-card a {
   text-decoration: none;
@@ -79,6 +95,7 @@ h1:hover{
   border-bottom: 2px solid #ddd; 
 }
 
+/*------------format of input labels emails, passwords,..----------*/
 .auth-card form {
   display: grid;
   gap: 1rem;
@@ -100,7 +117,7 @@ h1:hover{
   margin-top: 10px;
   border: none;
   border-radius: 10px;
-  background: #3f5b86;
+  background: #2a4772;
   color: white;
   font-weight: bold;
   cursor: pointer;
