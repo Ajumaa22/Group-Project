@@ -147,3 +147,73 @@ main > section {
     color: #546f8a;
 }
 /*-------------------POSTS SECTION--------------------------------*/
+
+.posts{
+    border-bottom: 2px solid #ddd;
+    padding-bottom: 15px;
+}
+.posts h2{
+    margin-bottom: 18px;
+}
+.posts-box {
+    background: #ffff;
+    border-radius: 20PX;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    padding: 15px;
+}
+.post-action{
+    display: flex;
+    align-items: flex-start;
+    gap:12px;
+    margin-bottom: 15px;
+
+}
+.post-action img{
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    flex-shrink: 0;
+}
+.post-action textarea{
+    width: 100%;
+    min-height: 10px;
+    resize: none;
+    border: none;
+    outline: none;
+    background: #ffffff;
+    border-radius: 14px;
+    padding: 12px 16px;
+    font-size: 15px;
+    font-family: Arial, sans-serif;
+    color: #344d66;
+    box-shadow: 0 0px 2px rgba(0, 0, 0, 0.15);
+}
+.post-upload {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px
+    flex-wrap: wrap;
+}
+.post-upload input {
+    flex: 1;
+    min-width: 180px;
+    color: #344d66;
+}
+
+.post-upload button {
+    background: #d8a4b4;
+    color: white;
+    cursor: pointer;
+    padding: 0.6rem 1.4rem;
+    font-size: 15px;
+    font-weight: bold;
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+    transition: 0.3s;
+}
+
+.post-upload button:hover {
+    background: #c68c9f;
+}
