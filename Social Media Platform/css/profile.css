@@ -54,14 +54,12 @@ main > section {
 }
 .profile-box {
     position: relative;
-    padding-bottom: 30px;
-    margin-bottom: 0px;
 }
 .profile-details{
     display: flex;
     justify-content: space-between;
-    margin: 20px 15px 0px 15px;
-    padding: 10px 70px 10px 70px;
+    margin: -20px 0px 0px 150px;
+    padding: 0px 70px 10px 70px;
     color: #4f5a8a;
 }
 .profile-n{
@@ -82,13 +80,19 @@ main > section {
     background: #e4deea;
 }
 
-.cover-wrap{  
+.profile-header{  
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     gap: 24px;
+    padding: 20px 25px 10px;
+    flex-wrap: wrap;
 }
 .profile-pic{
-    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+    flex-shrink: 0;
     top: 10px;
     left: 10px;
     width: 150px;
@@ -104,38 +108,42 @@ main > section {
     overflow: hidden;
 }
 .profile-pic img{
-    position: relative;
     width: 200px;
     height: 240px;
     border-radius: 50%;
-    margin-top: 25px;
-
+    margin-top: 15px;
 }
 
 .profile-info{
-    position: absolute;
-    top: 40px;
-    left: 23%;
+    flex: 1;
+    min-width: 250px;
+    padding-top: 30px;
 }
 .profile-info h1 {
-    margin-bottom: 8px;
+    margin: 0px 0px 12px 0px;
 }
 
 .profile-info p {
-    margin-top: 0;
-    margin-bottom: 10px;
+    margin: 0;
+    line-height: 1.5;
+    color: #344d66;
 }
-.profile-info button{
-    background: #4a5d7a;
-    color: #fdfeff;
+.profile-box button{
+    position: absolute;
+    top: 190px;
+    left: 55px;
+    background: #ffff;
+    color: #344d66;
     cursor: pointer;
     padding: 0.4rem 1rem;
-    font-size: 13px;
+    font-size: 15px;
     font-weight: bold;
     border: none;
-    border-radius: 5px;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    overflow: visible;
 }
-.profile-info button:hover{
-    background: #325586;
+.profile-box button:hover{
+    color: #546f8a;
 }
 /*-------------------POSTS SECTION--------------------------------*/
