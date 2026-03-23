@@ -35,6 +35,7 @@ function initializeFeedPage() {
     setupPostCreation();
     setupNavigation();
     setupUserSearch();
+    updateFeedProfilePic();
 }
 
 // Load all posts for feed
@@ -84,6 +85,13 @@ function createPostElement(post) {
 
     const postElement = template.content.cloneNode(true);
     const postCard = postElement.querySelector('.post-card');
+    const avatar = postCard.querySelector('.post-avatar');
+    const users = getUsers();
+    const postUser = users.find(u => u.id === post.userId);
+
+    if (avatar) {
+        avatar.src = postUser?.profilePhoto || 'Icons/IMG_1049.PNG';
+    }
 
     // Set post data
     const usernameLink = postCard.querySelector('.username-link');
@@ -123,6 +131,17 @@ function createPostElement(post) {
     }
 
     return postCard;
+}
+function updateFeedProfilePic() {
+    const currentUser = getCurrentUser();
+    const users = getUsers();
+    const feedProfilePic = document.getElementById('feedProfilePic');
+
+    if (!feedProfilePic || !currentUser) return;
+
+    const freshUser = users.find(user => user.id === currentUser.id) || currentUser;
+
+    feedProfilePic.src = freshUser.profilePhoto || 'Icons/IMG_1049.PNG';
 }
 
 // Handle like
@@ -229,7 +248,7 @@ function initializeProfileEditPage() {
             const reader = new FileReader();
             reader.onload = function (loadEvent) {
                 const newProfilePhoto = loadEvent.target.result;
-
+                console.log("Loaded image:" , newProfilePhoto);
                 saveProfileChanges(currentUser, desiredUsername, newBio, newProfilePhoto);
             };
             reader.readAsDataURL(file);
@@ -252,11 +271,13 @@ function saveProfileChanges(currentUser, newUsername, newBio, newProfilePhoto) {
     // Update user object
     currentUser.username = newUsername;
     currentUser.bio = newBio;
-    currentUser.profilePhoto = newProfilePhoto;
+    if (newProfilePhoto) {
+        currentUser.profilePhoto = newProfilePhoto;
+    }
 
     users[userIndex] = currentUser;
     saveUsers(users);
-    setCurrentUser(currentUser);
+    setCurrentUser(users[userIndex]);
 
     // Update posts for new username
     const posts = getPosts();
@@ -434,29 +455,31 @@ function updateProfileStats() {
 // Update profile info
 function updateProfileInfo() {
     const currentUser = getCurrentUser();
+    const users = getUsers();
+    const freshUser = users.find(user => user.id === currentUser.id) || currentUser;
 
     // Update username
     const usernameEl = document.querySelector('.profile-info h1');
     if (usernameEl) {
-        usernameEl.textContent = currentUser.username;
+        usernameEl.textContent = freshUser.username;
     }
 
     // Update bio
     const bioEl = document.querySelector('.profile-info p');
     if (bioEl) {
-        bioEl.textContent = currentUser.bio || 'No bio yet.';
+        bioEl.textContent = freshUser.bio || 'No bio yet.';
     }
 
     // Update profile picture
     const profilePicEl = document.querySelector('.profile-pic img');
     if (profilePicEl) {
-        profilePicEl.src = currentUser.profilePhoto || 'Icons/IMG_1049.PNG';
+        profilePicEl.src = freshUser.profilePhoto || 'Icons/IMG_1049.PNG';
     }
 
     // Update post form profile picture
     const postProfilePicEl = document.querySelector('.post-action img');
     if (postProfilePicEl) {
-        postProfilePicEl.src = currentUser.profilePhoto || 'Icons/IMG_1049.PNG';
+        postProfilePicEl.src = freshUser.profilePhoto || 'Icons/IMG_1049.PNG';
     }
 }
 
@@ -542,54 +565,65 @@ function updateProfileStatsForUser(user) {
 function setupFollowButton(profileUser) {
     const currentUser = getCurrentUser();
     if (!currentUser || currentUser.id === profileUser.id) {
-        return; // Don't show follow button for own profile
+        return;
     }
 
-    // Check if already following
     const isFollowing = currentUser.following && currentUser.following.includes(profileUser.id);
 
-    // Create follow button
-    const followBtn = document.createElement('button');
-    followBtn.id = 'followBtn';
+    let followBtn = document.getElementById('followBtn');
+
+    if (!followBtn) {
+        followBtn = document.createElement('button');
+        followBtn.id = 'followBtn';
+
+        const editBtn = document.getElementById('edit-Btn');
+        if (editBtn) {
+            editBtn.parentNode.replaceChild(followBtn, editBtn);
+        } else {
+            const profileBox = document.querySelector('.profile-box');
+            if (profileBox) {
+                profileBox.appendChild(followBtn);
+            }
+        }
+    }
+
     followBtn.textContent = isFollowing ? 'Unfollow' : 'Follow';
     followBtn.className = isFollowing ? 'unfollow-btn' : 'follow-btn';
     followBtn.onclick = () => toggleFollow(profileUser.id);
-
-    // Replace edit button with follow button
-    const editBtn = document.getElementById('edit-Btn');
-    if (editBtn) {
-        editBtn.parentNode.replaceChild(followBtn, editBtn);
-    }
 }
 
 // Toggle follow/unfollow
 function toggleFollow(targetUserId) {
     const currentUser = getCurrentUser();
     const users = getUsers();
-    const targetUser = users.find(user => user.id == targetUserId);
 
-    if (!currentUser || !targetUser) return;
+    const currentUserIndex = users.findIndex(user => user.id === currentUser.id);
+    const targetUserIndex = users.findIndex(user => user.id == targetUserId);
 
-    const isFollowing = currentUser.following && currentUser.following.includes(targetUserId);
+    if (currentUserIndex === -1 || targetUserIndex === -1) return;
+
+    const freshCurrentUser = users[currentUserIndex];
+    const targetUser = users[targetUserIndex];
+
+    freshCurrentUser.following = freshCurrentUser.following || [];
+    targetUser.followers = targetUser.followers || [];
+
+    const isFollowing = freshCurrentUser.following.includes(targetUserId);
 
     if (isFollowing) {
-        // Unfollow
-        currentUser.following = currentUser.following.filter(id => id != targetUserId);
-        targetUser.followers = targetUser.followers.filter(id => id != currentUser.id);
+        freshCurrentUser.following = freshCurrentUser.following.filter(id => id != targetUserId);
+        targetUser.followers = targetUser.followers.filter(id => id != freshCurrentUser.id);
     } else {
-        // Follow
-        if (!currentUser.following) currentUser.following = [];
-        if (!targetUser.followers) targetUser.followers = [];
-
-        currentUser.following.push(targetUserId);
-        targetUser.followers.push(currentUser.id);
+        freshCurrentUser.following.push(targetUserId);
+        targetUser.followers.push(freshCurrentUser.id);
     }
 
-    // Save changes
-    saveUsers(users);
-    setCurrentUser(currentUser);
+    users[currentUserIndex] = freshCurrentUser;
+    users[targetUserIndex] = targetUser;
 
-    // Update UI
+    saveUsers(users);
+    setCurrentUser(freshCurrentUser);
+
     updateProfileStatsForUser(targetUser);
     setupFollowButton(targetUser);
 }
