@@ -222,3 +222,141 @@ main > section {
 .post-upload button:hover {
     background: #c68c9f;
 }
+
+#userPostsContainer {
+    margin-top: 2rem;
+}
+
+.user-post-card {
+    background: white;
+    margin-bottom: 1rem;
+    padding: 1rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    border: 1px solid #e0e0e0;
+}
+
+.user-post-card .post-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+}
+
+.user-post-card .username {
+    font-weight: bold;
+    color: #2a4772;
+}
+
+.user-post-card .post-time {
+    color: #666;
+    font-size: 0.9rem;
+}
+
+.user-post-card .delete-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1.2rem;
+    padding: 0.2rem;
+    border-radius: 4px;
+    transition: background 0.2s;
+}
+
+.user-post-card .delete-btn:hover {
+    background: #ffe6e6;
+}
+
+.user-post-card .post-content {
+    margin-bottom: 0.5rem;
+}
+
+.user-post-card .post-text {
+    line-height: 1.4;
+    margin: 0;
+}
+
+.user-post-card .post-actions {
+    display: flex;
+    gap: 1rem;
+}
+
+.user-post-card .like-btn {
+    background: none;
+    border: 1px solid #ddd;
+    padding: 0.3rem 0.6rem;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: background 0.2s;
+}
+
+.user-post-card .like-btn:hover {
+    background: #f0f8ff;
+}
+
+.user-post-card .like-count {
+    font-weight: bold;
+}
+
+/* ---------- Follow/Unfollow Button Styles ---------- */
+#followBtn, #edit-Btn {
+    padding: 0.8rem 1.5rem;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+#edit-Btn {
+    background: #2f3552;
+    color: white;
+}
+
+#edit-Btn:hover {
+    background: rgb(212, 199, 141);
+    color: #2f3552;
+}
+
+.follow-btn {
+    background: #2f3552;
+    color: white;
+}
+
+.follow-btn:hover {
+    background: rgb(212, 199, 141);
+    color: #2f3552;
+}
+
+.unfollow-btn {
+    background: #f0f0f0;
+    color: #2f3552;
+    border: 2px solid #ddd;
+}
+
+.unfollow-btn:hover {
+    background: #e0e0e0;
+}
+
+/* ---------- Username Link Styles ---------- */
+.username-link {
+    color: #2f3552;
+    text-decoration: none;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.username-link:hover {
+    color: rgb(212, 199, 141);
+}
+
+/* Smooth scrolling for posts navigation */
+body {
+    scroll-behavior: smooth;
+}
+
+.posts {
+    scroll-margin-top: 100px;
+}

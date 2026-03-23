@@ -58,7 +58,9 @@ if (registerForm){
             password,
             dob,
             bio: "",
-            profilePhoto:""
+            profilePhoto:"",
+            following: [],
+            followers: []
         };
         users.push(newUser);
         saveUsers(users);
