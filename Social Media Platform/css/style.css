@@ -227,7 +227,7 @@ h2:hover{
     gap: 30px;
     align-items: center;
 }
-}
+
 
 /* ================= FEED STYLES ================= */
 
@@ -382,7 +382,7 @@ h2:hover{
   margin-bottom: 0.5rem;
   border-radius: 8px;
   cursor: pointer;
-  transition: background 0.3s;
+  transition: 0.3s;
 }
 
 .nav-item:hover,
