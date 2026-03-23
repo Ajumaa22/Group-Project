@@ -18,6 +18,11 @@ document.addEventListener('DOMContentLoaded', function() {
         initializeProfilePage();
     }
 
+    // If on profile-edit page, initialize edit profile functionality
+    if (window.location.pathname.includes('profile-edit.html')) {
+        initializeProfileEditPage();
+    }
+
     // If on index page, initialize feed functionality
     if (window.location.pathname.includes('index.html') || window.location.pathname === '/' || window.location.pathname.endsWith('/')) {
         initializeFeedPage();
@@ -173,10 +178,105 @@ function initializeProfilePage() {
     }
 }
 
+function setupEditButton() {
+    const editBtn = document.getElementById('edit-Btn');
+    if (!editBtn) return;
+
+    editBtn.addEventListener('click', () => {
+        window.location.href = 'profile-edit.html';
+    });
+}
+
+function initializeProfileEditPage() {
+    const currentUser = getCurrentUser();
+    if (!currentUser) {
+        window.location.href = 'login.html';
+        return;
+    }
+
+    const form = document.querySelector('form');
+    if (!form) return;
+
+    const usernameInput = form.querySelector('input[name="username"]');
+    const bioInput = form.querySelector('textarea[name="bio"]');
+    const photoInput = form.querySelector('input[name="profile_photo"]');
+
+    if (usernameInput) usernameInput.value = currentUser.username;
+    if (bioInput) bioInput.value = currentUser.bio || '';
+
+    form.addEventListener('submit', async function (e) {
+        e.preventDefault();
+
+        const desiredUsername = usernameInput.value.trim();
+        const newBio = bioInput.value.trim();
+
+        if (!desiredUsername || desiredUsername.length < 3) {
+            alert('Username must be at least 3 characters.');
+            return;
+        }
+
+        const users = getUsers();
+        const usernameOwner = users.find(user => user.username.toLowerCase() === desiredUsername.toLowerCase());
+
+        if (usernameOwner && usernameOwner.id !== currentUser.id) {
+            alert('Username already exists. Please choose a different username.');
+            return;
+        }
+
+        // Update profile photo if file selected
+        if (photoInput.files && photoInput.files[0]) {
+            const file = photoInput.files[0];
+            const reader = new FileReader();
+            reader.onload = function (loadEvent) {
+                const newProfilePhoto = loadEvent.target.result;
+
+                saveProfileChanges(currentUser, desiredUsername, newBio, newProfilePhoto);
+            };
+            reader.readAsDataURL(file);
+        } else {
+            saveProfileChanges(currentUser, desiredUsername, newBio, currentUser.profilePhoto);
+        }
+    });
+}
+
+function saveProfileChanges(currentUser, newUsername, newBio, newProfilePhoto) {
+    const users = getUsers();
+    const userIndex = users.findIndex(user => user.id === currentUser.id);
+
+    if (userIndex === -1) {
+        alert('Current user not found. Please log in again.');
+        window.location.href = 'login.html';
+        return;
+    }
+
+    // Update user object
+    currentUser.username = newUsername;
+    currentUser.bio = newBio;
+    currentUser.profilePhoto = newProfilePhoto;
+
+    users[userIndex] = currentUser;
+    saveUsers(users);
+    setCurrentUser(currentUser);
+
+    // Update posts for new username
+    const posts = getPosts();
+    const changedPosts = posts.filter(post => post.userId === currentUser.id);
+
+    changedPosts.forEach(post => {
+        post.username = newUsername;
+    });
+
+    savePosts(posts);
+
+    alert('Profile updated successfully.');
+    window.location.href = 'profile.html';
+}
+
 // Load another user's profile
 function loadOtherUserProfile(username) {
     const users = getUsers();
-    const profileUser = users.find(user => user.username === username);
+    const decodedUsername = decodeURIComponent(username || '').trim();
+    const profileUser = users.find(user => user.username.toLowerCase() === decodedUsername.toLowerCase());
 
     if (!profileUser) {
         alert('User not found');
@@ -494,6 +594,20 @@ function toggleFollow(targetUserId) {
     setupFollowButton(targetUser);
 }
 
+function updateUser(updatedUser) {
+    const users = getUsers();
+    const userIndex = users.findIndex(user => user.id === updatedUser.id);
+    if (userIndex !== -1) {
+        users[userIndex] = updatedUser;
+        saveUsers(users);
+    }
+
+    const currentUser = getCurrentUser();
+    if (currentUser && currentUser.id === updatedUser.id) {
+        setCurrentUser(updatedUser);
+    }
+}
+
 // Format time
 function formatTime(timestamp) {
     const date = new Date(timestamp);
@@ -588,12 +702,12 @@ function performUserSearch(query) {
     const currentUser = getCurrentUser();
     const searchResults = document.getElementById('searchResults');
 
-    if (!searchResults) return;
+    if (!searchResults || !currentUser) return;
 
-    // Filter users based on query (case insensitive)
+    // Filter users based on query (case insensitive) and not the current user
     const filteredUsers = users.filter(user =>
         user.username.toLowerCase().includes(query.toLowerCase()) &&
-        user.username !== currentUser.username
+        user.id !== currentUser.id
     );
 
     // Limit results to 5
@@ -611,41 +725,42 @@ function performUserSearch(query) {
 
 function createSearchResultItem(user) {
     const currentUser = getCurrentUser();
-    const isFollowing = currentUser.following.includes(user.username);
+    const isFollowing = currentUser.following && currentUser.following.includes(user.id);
 
     return `
         <div class="search-result-item">
             <div class="search-user-info">
-                <a href="profile.html?user=${user.username}" class="search-username">${user.username}</a>
+                <a href="profile.html?user=${encodeURIComponent(user.username)}" class="search-username">${user.username}</a>
             </div>
             <button class="follow-btn ${isFollowing ? 'following' : ''}" 
-                    onclick="handleSearchFollow('${user.username}', event)">
+                    onclick="handleSearchFollow(${user.id}, event)">
                 ${isFollowing ? 'Following' : 'Follow'}
             </button>
         </div>
     `;
 }
 
-function handleSearchFollow(userId, event) {
+function handleSearchFollow(targetUserId, event) {
     event.preventDefault();
     event.stopPropagation();
 
     const currentUser = getCurrentUser();
     const users = getUsers();
-    const targetUser = users.find(u => u.username === userId);
+    const targetUser = users.find(u => u.id === targetUserId);
 
-    if (!targetUser) return;
+    if (!currentUser || !targetUser) return;
 
-    const isFollowing = currentUser.following.includes(userId);
+    const isFollowing = currentUser.following && currentUser.following.includes(targetUserId);
 
     if (isFollowing) {
-        // Unfollow
-        currentUser.following = currentUser.following.filter(id => id !== userId);
-        targetUser.followers = targetUser.followers.filter(id => id !== currentUser.username);
+        currentUser.following = currentUser.following.filter(id => id !== targetUserId);
+        targetUser.followers = (targetUser.followers || []).filter(id => id !== currentUser.id);
     } else {
-        // Follow
-        currentUser.following.push(userId);
-        targetUser.followers.push(currentUser.username);
+        currentUser.following = currentUser.following || [];
+        targetUser.followers = targetUser.followers || [];
+
+        currentUser.following.push(targetUserId);
+        targetUser.followers.push(currentUser.id);
     }
 
     // Update users in localStorage
