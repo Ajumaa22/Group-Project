@@ -2,164 +2,106 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>News Feed</title>
+  <title>Momenta - Feed</title>
+  <link rel="stylesheet" href="css/index.css">
 </head>
 
 <body>
 
-  <!-- ================= NAVBAR ================= -->
-  <header id="navbar">
+<!-- ================= NAVBAR ================= -->
+<header id="navbar">
 
-    <div class="nav-left">
-      <h2 id="logo">Momenta</h2>
-    </div>
-
-    <div class="nav-center">
-      <input 
-        type="search" 
-        id="searchInput" 
-        placeholder="Search users..." 
-        autocomplete="off"
-      >
-      <div id="searchResults"></div>
-    </div>
-
-    <div class="nav-right">
-      <button id="logout-btn">Logout</button>
-    </div>
-
-  </header>
-
-
-  <!-- ================= MAIN LAYOUT ================= -->
-  <div id="layout">
-
-    <!-- ========== SIDEBAR ========== -->
-    <aside id="sidebar">
-
-      <!-- Navigation -->
-      <nav id="mainNav">
-        <ul>
-          <li class="nav-item active" id="homeNav">
-            <span class="icon">🏠</span>
-            <span class="text">Home</span>
-          </li>
-
-          <li class="nav-item" id="profileNav">
-            <span class="icon">👤</span>
-            <span class="text">Profile</span>
-          </li>
-        </ul>
-      </nav>
-
-      <!-- Following -->
-      <div id="followingSection">
-        <h4 class="section-title">Following</h4>
-
-        <ul id="followingList">
-          <!-- JS will insert followed users here -->
-        </ul>
-      </div>
-
-    </aside>
-
-
-    <!-- ========== FEED ========== -->
-    <main id="feed">
-
-      <!-- Create Post -->
-      <section id="createPost">
-        <div class="create-post-box">
-
-          <textarea 
-            id="postInput" 
-            class="post-input" 
-            placeholder="What's on your mind?"
-          ></textarea>
-
-          <button id="submitPostBtn" class="submit-post">
-            Post
-          </button>
-
-        </div>
-      </section>
-
-
-      <!-- Posts -->
-      <section id="postsContainer">
-        <!-- Posts will be added dynamically -->
-      </section>
-
-    </main>
-
+  <div class="nav-left">
+    <h2 id="logo">Momenta</h2>
   </div>
 
+  <div class="nav-center">
+    <input type="search" id="searchInput" placeholder="Search users..." autocomplete="off">
+    <div id="searchResults"></div>
+  </div>
 
-  <!-- ================= POST TEMPLATE ================= -->
-  <template id="postTemplate">
+  <div class="nav-right">
+    <span id="navUsername"></span>
+    <button id="logout-Btn">Logout</button>
+  </div>
 
-    <article class="post-card">
+</header>
 
-      <!-- Header -->
-      <div class="post-header">
+<!-- ================= MAIN ================= -->
+<div id="layout">
+
+  <!-- SIDEBAR -->
+  <aside id="sidebar">
+
+    <nav id="mainNav">
+      <ul>
+        <li class="nav-item active" id="homeNav">
+          <div class="nav-icon">🏠</div>
+          <span>Home</span>
+        </li>
+
+        <li class="nav-item" id="profileNav">
+          <div class="nav-icon">
+            <img src="Icons/IMG_1049.PNG" class="sidebar-profile-img">
+          </div>
+          <span>Profile</span>
+        </li>
+      </ul>
+    </nav>
+
+    <div id="followingSection">
+      <h4>Following</h4>
+      <ul id="followingList"></ul>
+    </div>
+
+  </aside>
+
+  <!-- FEED -->
+  <main id="feed">
+
+    <section id="createPost">
+      <textarea id="postInput" placeholder="What's on your mind?"></textarea>
+      <button id="submitPostBtn">Post</button>
+    </section>
+
+    <section id="postsContainer"></section>
+
+  </main>
+
+</div>
+
+<!-- TEMPLATE -->
+<template id="postTemplate">
+
+  <article class="post-card">
+
+    <div class="post-header">
+      <img class="profile-img" src="Icons/IMG_1049.PNG">
+      <div class="user-info">
         <span class="username"></span>
         <span class="post-time"></span>
       </div>
-
-      <!-- Content -->
-      <div class="post-content">
-        <p class="post-text"></p>
-      </div>
-
-      <!-- Like -->
-      <div class="post-actions">
-        <button class="like-btn">👍 Like</button>
-        <span class="like-count">0</span>
-      </div>
-
-      <!-- Comments -->
-      <div class="comments-section">
-
-        <div class="comments-list"></div>
-
-        <input 
-          type="text" 
-          class="comment-input" 
-          placeholder="Write a comment..."
-        >
-
-      </div>
-
-    </article>
-
-  </template>
-
-    <!-- ================= FOOTER ================= -->
-    <footer id="footer">
-
-    <div class="footer-container">
-
-        <!-- Left -->
-        <div class="footer-left">
-        <h3 id="footerLogo">Momenta</h3>
-        <p class="footer-text">© 2026 Momenta. All rights reserved.</p>
-        </div>
-
-        <!-- Center -->
-        <div class="footer-center">
-        <a href="#" class="footer-link">About</a>
-        <a href="#" class="footer-link">Privacy</a>
-        <a href="#" class="footer-link">Terms</a>
-        </div>
-
-        <!-- Right -->
-        <div class="footer-right">
-        <p class="footer-text">Contact: support@momenta.com</p>
-        </div>
-
     </div>
 
-    </footer>
+    <p class="post-text"></p>
+
+    <div class="post-actions">
+      <button class="like-btn">👍 Like</button>
+      <span class="like-count">0</span>
+    </div>
+
+    <div class="comments-section">
+      <div class="comments-list"></div>
+      <input class="comment-input" placeholder="Write a comment...">
+    </div>
+
+  </article>
+
+</template>
+
+<!-- SCRIPTS -->
+<script src="js/auth.js"></script>
+<script src="js/feed.js"></script>
 
 </body>
 </html>
