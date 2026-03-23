@@ -299,6 +299,59 @@ main > section {
     font-weight: bold;
 }
 
+/* ---------- Follow/Unfollow Button Styles ---------- */
+#followBtn, #edit-Btn {
+    padding: 0.8rem 1.5rem;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+#edit-Btn {
+    background: #2f3552;
+    color: white;
+}
+
+#edit-Btn:hover {
+    background: rgb(212, 199, 141);
+    color: #2f3552;
+}
+
+.follow-btn {
+    background: #2f3552;
+    color: white;
+}
+
+.follow-btn:hover {
+    background: rgb(212, 199, 141);
+    color: #2f3552;
+}
+
+.unfollow-btn {
+    background: #f0f0f0;
+    color: #2f3552;
+    border: 2px solid #ddd;
+}
+
+.unfollow-btn:hover {
+    background: #e0e0e0;
+}
+
+/* ---------- Username Link Styles ---------- */
+.username-link {
+    color: #2f3552;
+    text-decoration: none;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.username-link:hover {
+    color: rgb(212, 199, 141);
+}
+
 /* Smooth scrolling for posts navigation */
 body {
     scroll-behavior: smooth;
