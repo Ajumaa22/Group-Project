@@ -306,13 +306,13 @@ if (isEditPage) {
         // users[userIndex].bio = newBio;
 
         if(!newUsername){
-            alert("username cannot be empty")
+            alert("Username cannot be empty")
             return;
         }
         const usernameTaken = users.find(u => 
             u.id !== currentUser.id &&
-            u.username.toLowerCase()=== newUsername.toLowerCase()
-        )
+            u.username.toLowerCase() === newUsername.toLowerCase()
+        );
         if(usernameTaken){
             alert("This Username is already taken, Please Try another one")
             return;

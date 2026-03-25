@@ -55,7 +55,7 @@ if (registerForm) {
 
         const users = getUsers();
 
-        if (users.find(u => u.username === username)) {
+        if (users.find(u => u.username.toLowerCase() === username.toLowerCase())) {
             alert("An account with this username already exists.");
             return;
         }
