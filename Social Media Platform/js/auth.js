@@ -7,7 +7,7 @@ function saveUsers(users) {
     localStorage.setItem("users", JSON.stringify(users));
 }
 
-// Only saves essential, lightweight user data — never posts or comments
+// Only saves essential user data
 function setCurrentUser(user) {
     const safeUser = {
         id: user.id,
