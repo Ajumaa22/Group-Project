@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>User Profile</title>
+    <link rel="stylesheet" href="css/user-profile.css">
+</head>
+<body>
+
+<nav>
+    <a href="index.html">← Back to Feed</a>
+</nav>
+
+<main>
+    <section id="userProfileSection">
+
+        <img id="userProfileImage" src="icons/user-round (1).svg" alt="Profile Photo">
+        <h2 id="userUsername"></h2>
+        <p id="userBio"></p>
+
+        <div id="userStats">
+            <span>Posts: <strong id="userPostsCount">0</strong></span>
+            <span>Followers: <strong id="userFollowersCount">0</strong></span>
+            <span>Following: <strong id="userFollowingCount">0</strong></span>
+        </div>
+
+        <button id="followBtn"></button>
+
+    </section>
+
+    <section id="userPostsContainer"></section>
+</main>
+<div id="postModal" class="post-modal hidden">
+    <div class="post-modal-content">
+        <button id="closePostModal" class="close-post-modal">&times;</button>
+        <div id="postModalBody"></div>
+    </div>
+</div>
+<script src="js/auth.js"></script>
+<script src="js/user-profile.js"></script>
+
+</body>
+</html>
