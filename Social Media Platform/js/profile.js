@@ -300,9 +300,24 @@ if (isEditPage) {
             return;
         }
 
-        if (newUsername) {
-            users[userIndex].username = newUsername;
+        // if (newUsername) {
+        //     users[userIndex].username = newUsername;
+        // }
+        // users[userIndex].bio = newBio;
+
+        if(!newUsername){
+            alert("username cannot be empty")
+            return;
         }
+        const usernameTaken = users.find(u => 
+            u.id !== currentUser.id &&
+            u.username.toLowerCase()=== newUsername.toLowerCase()
+        )
+        if(usernameTaken){
+            alert("This Username is already taken, Please Try another one")
+            return;
+        }
+        users[userIndex].username = newUsername;
         users[userIndex].bio = newBio;
 
         if (file) {
