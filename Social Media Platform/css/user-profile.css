@@ -1,0 +1,316 @@
+/* ------------------- GLOBAL ------------------- */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  min-height: 100vh;
+  background: linear-gradient(180deg, #f7efef 0%, #fdf8f8 45%, #f6eeee 100%);
+  font-family: Arial, sans-serif;
+  color: #2f3552;
+}
+
+/* ------------------- NAV ------------------- */
+nav {
+  width: 100%;
+  background-color: rgba(255, 255, 255, 0.85);
+  padding: 15px 30px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  backdrop-filter: blur(8px);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+nav a {
+  text-decoration: none;
+  color: #2f3552;
+  font-weight: bold;
+  font-size: 15px;
+}
+
+nav a:hover {
+  color: #d8a4b4;
+}
+
+/* ------------------- MAIN ------------------- */
+main {
+  max-width: 700px;
+  margin: 30px auto;
+  padding: 0 20px;
+}
+
+/* ------------------- PROFILE CARD ------------------- */
+#userProfileSection {
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 20px;
+  padding: 30px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 25px;
+  text-align: center;
+}
+
+#userProfileImage {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+#userUsername {
+  font-size: 22px;
+  font-weight: bold;
+  color: #2f3552;
+}
+
+#userBio {
+  font-size: 14px;
+  color: #777;
+}
+
+/* ------------------- STATS ------------------- */
+#userStats {
+  display: flex;
+  gap: 30px;
+  margin-top: 8px;
+}
+
+#userStats span {
+  font-size: 14px;
+  color: #555;
+}
+
+#userStats strong {
+  color: #2f3552;
+  font-size: 16px;
+}
+
+/* ------------------- FOLLOW BUTTON ------------------- */
+#followBtn {
+  margin-top: 8px;
+  background: #d8a4b4;
+  color: white;
+  border: none;
+  padding: 10px 28px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 14px;
+  transition: background 0.2s;
+}
+
+#followBtn:hover {
+  background: #c68c9f;
+}
+
+#followBtn.following {
+  background: #e8d0d8;
+  color: #2f3552;
+}
+
+#followBtn.following:hover {
+  background: #d8b8c4;
+}
+
+/* ------------------- POSTS ------------------- */
+.post-card {
+  background: rgba(255, 255, 255, 0.9);
+  margin-bottom: 20px;
+  padding: 15px;
+  border-radius: 20px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+}
+
+.post-card p {
+  margin-bottom: 6px;
+  line-height: 1.5;
+}
+
+.post-card small {
+  font-size: 12px;
+  color: #777;
+}
+/* ------------------- POST CARDS ------------------- */
+.post-card {
+  background: #ffffff;
+  border-radius: 22px;
+  padding: 18px;
+  margin-bottom: 18px;
+  box-shadow: 0 6px 22px rgba(0, 0, 0, 0.08);
+  transition: 0.2s ease;
+}
+
+#userPostsContainer .post-card {
+  cursor: pointer;
+}
+
+#userPostsContainer .post-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.09);
+}
+
+/* ------------------- MODAL ------------------- */
+.post-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  z-index: 2000;
+}
+
+.post-modal.hidden {
+  display: none;
+}
+
+.post-modal-content {
+  position: relative;
+  width: 100%;
+  max-width: 720px;
+  max-height: 90vh;
+  overflow-y: auto;
+  background: #fff;
+  border-radius: 24px;
+  padding: 24px;
+  box-shadow: 0 10px 35px rgba(0, 0, 0, 0.18);
+}
+
+.close-post-modal {
+  position: absolute;
+  top: 12px;
+  right: 16px;
+  border: none;
+  background: transparent;
+  font-size: 32px;
+  cursor: pointer;
+  line-height: 1;
+}
+
+.close-post-modal:hover {
+  opacity: 0.7;
+}
+
+/* ------------------- FULL POST DETAILS INSIDE MODAL ------------------- */
+.post-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.post-header .profile-img {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.user-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.user-info .username {
+  font-size: 15px;
+  font-weight: bold;
+  color: #2f3552;
+}
+
+.user-info .post-time {
+  font-size: 12px;
+  color: #9aa0b5;
+}
+
+.post-text {
+  font-size: 14px;
+  line-height: 1.65;
+  color: #3a4060;
+  white-space: pre-wrap;
+  word-break: break-word;
+  margin: 8px 0 6px;
+}
+
+.post-image {
+  width: 100%;
+  max-height: 420px;
+  object-fit: cover;
+  border-radius: 16px;
+  margin: 12px 0;
+}
+
+.post-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 10px;
+  padding-top: 12px;
+  border-top: 1px solid #eee;
+}
+
+.like-btn {
+  border: none;
+  background: #f5f1ff;
+  color: #5c4b8a;
+  padding: 8px 14px;
+  border-radius: 14px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 600;
+  transition: 0.2s ease;
+}
+
+.like-btn:hover {
+  opacity: 0.9;
+}
+
+.like-count {
+  font-size: 13px;
+  color: #6a7090;
+  font-weight: 600;
+}
+
+.comments-section {
+  margin-top: 14px;
+}
+
+.comments-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.comments-list p {
+  font-size: 13px;
+  color: #3a4060;
+  background: #f8f8fb;
+  padding: 10px 12px;
+  border-radius: 12px;
+}
+
+.comment-input {
+  width: 100%;
+  padding: 11px 14px;
+  border-radius: 14px;
+  border: 1px solid #ddd;
+  outline: none;
+  font-size: 13px;
+  color: #2f3552;
+  background: #fff;
+}
+
+.comment-input:focus {
+  border-color: #b9b2d9;
+  box-shadow: 0 0 0 3px rgba(185, 178, 217, 0.15);
+}
