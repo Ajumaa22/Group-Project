@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Momenta - Post</title>
+    <link rel="stylesheet" href="css/index.css">
+</head>
+<body>
+
+<header id="navbar">
+    <div class="nav-left">
+        <h2 id="logo">Momenta</h2>
+    </div>
+
+    <div class="nav-center">
+        <input type="search" id="searchInput" placeholder="Search users..." autocomplete="off">
+        <div id="searchResults"></div>
+    </div>
+
+    <div class="nav-right">
+        <span id="navUsername"></span>
+        <button id="logout-Btn">Logout</button>
+    </div>
+</header>
+
+<div id="layout">
+    <aside id="sidebar">
+        <nav id="mainNav">
+            <ul>
+                <li class="nav-item" id="homeNav">
+                    <div class="nav-icon">🏠</div>
+                    <span>Home</span>
+                </li>
+
+                <li class="nav-item" id="profileNav">
+                    <div class="nav-icon">
+                        <img id="navProfileImg" src="icons/user-round (1).svg" class="sidebar-profile-img" alt="profile">
+                    </div>
+                    <span>Profile</span>
+                </li>
+            </ul>
+        </nav>
+
+        <div id="followingSection">
+            <h4>Following</h4>
+            <ul id="followingList"></ul>
+        </div>
+    </aside>
+
+    <main id="feed">
+        <section id="singlePostContainer"></section>
+    </main>
+</div>
+
+<template id="singlePostTemplate">
+    <article class="post-card">
+        <div class="post-header">
+            <img class="profile-img" src="" alt="profile">
+            <div class="user-info">
+                <span class="username"></span>
+                <span class="post-time"></span>
+            </div>
+        </div>
+
+        <p class="post-text"></p>
+
+        <div class="post-actions">
+            <button class="like-btn">👍 Like</button>
+            <span class="like-count">0</span>
+        </div>
+
+        <div class="comments-section">
+            <div class="comments-list"></div>
+            <input class="comment-input" placeholder="Write a comment...">
+        </div>
+    </article>
+</template>
+
+<script src="js/auth.js"></script>
+<script src="js/post.js"></script>
+</body>
+</html>
