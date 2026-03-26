@@ -92,7 +92,17 @@ const postModalBody = document.getElementById("postModalBody");
 const closePostModal = document.getElementById("closePostModal");
 
 // ================= LOAD POSTS =================
-let posts = getPosts();
+function getFilteredPosts() {
+    const allUsers = getUsers();
+    const loggedIn = allUsers.find(u => u.id === currentUser.id);
+    const following = loggedIn?.following || [];
+
+    return getPosts()
+        .filter(p => p.userId === currentUser.id || following.includes(p.userId))
+        .sort((a, b) => b.id - a.id);
+}
+
+let posts = getFilteredPosts();
 posts.forEach(renderPost);
 
 // ================= CREATE POST =================
@@ -111,9 +121,11 @@ submitPostBtn.addEventListener("click", () => {
         comments: []
     };
 
-    posts.unshift(newPost);
-    savePosts(posts);
+    const allPosts = getPosts();
+    allPosts.unshift(newPost);
+    savePosts(allPosts);
 
+    posts = getFilteredPosts();
     postsContainer.innerHTML = "";
     posts.forEach(renderPost);
     postInput.value = "";
@@ -166,8 +178,9 @@ function openPostModal(post) {
         }
 
         likeCount.textContent = post.likes.length;
-        savePosts(posts);
+        savePosts(getPosts().map(p => p.id === post.id ? post : p));
 
+        posts = getFilteredPosts();
         postsContainer.innerHTML = "";
         posts.forEach(renderPost);
     };
@@ -198,6 +211,7 @@ function openPostModal(post) {
 
             commentInput.value = "";
 
+            posts = getFilteredPosts();
             postsContainer.innerHTML = "";
             posts.forEach(renderPost);
         }
@@ -322,8 +336,9 @@ function renderPost(post) {
             if (!newText) return;
 
             post.text = newText;
-            savePosts(posts);
+            savePosts(getPosts().map(p => p.id === post.id ? post : p));
 
+            posts = getFilteredPosts();
             postsContainer.innerHTML = "";
             posts.forEach(renderPost);
         };
@@ -332,9 +347,10 @@ function renderPost(post) {
             e.stopPropagation();
             if (!confirm("Delete post?")) return;
 
-            posts = posts.filter(p => p.id !== post.id);
-            savePosts(posts);
+            const allPosts = getPosts().filter(p => p.id !== post.id);
+            savePosts(allPosts);
 
+            posts = getFilteredPosts();
             postsContainer.innerHTML = "";
             posts.forEach(renderPost);
         };
