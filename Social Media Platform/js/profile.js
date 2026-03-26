@@ -300,11 +300,6 @@ if (isEditPage) {
             return;
         }
 
-        // if (newUsername) {
-        //     users[userIndex].username = newUsername;
-        // }
-        // users[userIndex].bio = newBio;
-
         if(!newUsername){
             alert("Username cannot be empty")
             return;

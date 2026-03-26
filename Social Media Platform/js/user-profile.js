@@ -201,7 +201,6 @@ if (postModal) {
 // ================= FOLLOW / UNFOLLOW =================
 const followBtn = document.getElementById("followBtn");
 
-// Get the logged-in user's fresh data from the users array (not currentUser in localStorage)
 let loggedInUser = users.find(u => u.id === currentUser.id);
 
 function renderFollowBtn() {
@@ -213,7 +212,7 @@ function renderFollowBtn() {
 renderFollowBtn();
 
 followBtn.addEventListener("click", () => {
-    users = getUsers(); // Always re-read fresh before writing
+    users = getUsers();
 
     const viewed = users.find(u => u.id === viewingUserId);
     const logged = users.find(u => u.id === currentUser.id);

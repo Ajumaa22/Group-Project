@@ -200,14 +200,7 @@ main > section {
   gap: 16px;
 }
 
-/* -------------------------------------------------------
-   .post-card is rendered by profile.js as:
-   <div class="post-card">
-     <p><strong>username</strong></p>
-     <p>post text</p>
-     <small>timestamp</small>
-   </div>
-------------------------------------------------------- */
+/* ----------.post-card is rendered by profile.js----------- */
 .post-card {
   background: rgba(255, 255, 255, 0.92);
   border-radius: 20px;
