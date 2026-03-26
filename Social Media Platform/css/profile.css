@@ -21,12 +21,11 @@ nav {
   background-color: rgba(255, 255, 255, 0.88);
   padding: 16px 32px;
   display: flex;
-  justify-content: center;
-  gap: 48px;
+  justify-content: space-between;
+  align-items: center;
   box-shadow: 0 2px 16px rgba(200, 140, 160, 0.1);
   backdrop-filter: blur(12px);
   position: sticky;
-  top: 0;
   z-index: 100;
   border-bottom: 1px solid rgba(216, 164, 180, 0.15);
 }
@@ -34,13 +33,30 @@ nav {
 nav a {
   color: #2f3552;
   text-decoration: none;
-  font-size: 15px;
+  font-size: 18px;
   font-weight: bold;
   transition: color 0.2s;
 }
 
 nav a:hover {
   color: #c68c9f;
+}
+#logout-Btn {
+  background: #d8a4b4;
+  color: white;
+  border: none;
+  padding: 8px 18px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 13px;
+  font-family: 'DM Sans', sans-serif;
+  transition: background 0.2s, transform 0.15s;
+}
+
+#logout-Btn:hover {
+  background: #c68c9f;
+  transform: translateY(-1px);
 }
 
 
