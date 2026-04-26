@@ -1,0 +1,96 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  username  String   @unique
+  email     String   @unique
+  password  String
+  bio       String?
+  avatar    String?
+  createdAt DateTime @default(now())
+
+  // Follow relations
+  following Follow[] @relation("follower")
+  followers Follow[] @relation("following")
+
+  posts     Post[]
+  comments  Comment[]
+  likes     Like[]
+  retweets  Retweet[]
+}
+
+model Follow {
+  id          Int      @id @default(autoincrement())
+  createdAt   DateTime @default(now())
+
+  followerId  Int
+  follower    User     @relation("follower", fields: [followerId], references: [id])
+
+  followingId Int
+  following   User     @relation("following", fields: [followingId], references: [id])
+
+  @@unique([followerId, followingId])  // prevents duplicate follows
+}
+
+model Post {
+  id        Int       @id @default(autoincrement())
+  content   String
+  createdAt DateTime  @default(now())
+
+  userId    Int
+  user      User      @relation(fields: [userId], references: [id])
+
+  comments  Comment[]
+  likes     Like[]
+  retweets  Retweet[]
+}
+
+model Comment {
+  id        Int      @id @default(autoincrement())
+  content   String
+  createdAt DateTime @default(now())
+
+  postId    Int
+  post      Post     @relation(fields: [postId], references: [id])
+
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id])
+}
+
+model Like {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+
+  postId    Int
+  post      Post     @relation(fields: [postId], references: [id])
+
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id])
+
+  @@unique([userId, postId])  // prevents duplicate likes
+}
+
+model Retweet {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+
+  postId    Int
+  post      Post     @relation(fields: [postId], references: [id])
+
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id])
+
+  @@unique([userId, postId])  // CRITICAL: prevents duplicate retweets
+}
