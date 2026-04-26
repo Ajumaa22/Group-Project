@@ -229,6 +229,26 @@ postModal.addEventListener("click", (e) => {
         postModal.classList.add("hidden");
     }
 });
+likeBtn.addEventListener("click", () => {
+
+    if (!Array.isArray(post.likes)) {
+        post.likes = [];
+    }
+
+    if (post.likes.includes(currentUser.id)) {
+        post.likes = post.likes.filter(id => id !== currentUser.id);
+        likeBtn.classList.remove("liked"); // 🔥 remove color
+    } else {
+        post.likes.push(currentUser.id);
+        likeBtn.classList.add("liked"); // 🔥 add color
+    }
+
+    likeCount.textContent = post.likes.length;
+    localStorage.setItem("posts", JSON.stringify(posts));
+});
+if (post.likes && post.likes.includes(currentUser.id)) {
+    likeBtn.classList.add("liked");
+}
 
 // ================= RENDER POST =================
 function renderPost(post) {
