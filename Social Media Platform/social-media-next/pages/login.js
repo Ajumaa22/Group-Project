@@ -1,4 +1,5 @@
 import { useRouter } from "next/router";
+import Link from "next/link";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -37,8 +38,10 @@ export default function LoginPage() {
         </div>
 
         <div className="title-row">
-          <h2>Login</h2>
-          <h1>Register</h1>
+            <h2>Login</h2>
+            <Link href="/register">
+                <h1>Register</h1>
+            </Link>
         </div>
 
         <form onSubmit={handleLogin}>
@@ -59,7 +62,7 @@ export default function LoginPage() {
         </form>
 
         <p className="login-link">
-          Dont have an account? <a href="#">Register</a>
+          Dont have an account? <Link href="/register">Register</Link>
         </p>
 
       </section>
