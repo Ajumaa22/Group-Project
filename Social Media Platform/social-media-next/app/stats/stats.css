@@ -1,0 +1,128 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600&display=swap');
+
+body {
+  background: linear-gradient(160deg, #f9eef2 0%, #fdf8f9 50%, #f0eaf6 100%);
+  font-family: 'DM Sans', sans-serif;
+  color: #2f3552;
+}
+
+/* PAGE CONTAINER */
+.stats-page {
+  max-width: 1100px;
+  margin: 32px auto;
+  padding: 0 20px 40px;
+}
+
+/* HEADER */
+.stats-header {
+  margin-bottom: 24px;
+}
+
+.stats-header h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: 32px;
+  color: #2f3552;
+  margin-bottom: 6px;
+}
+
+.stats-header p {
+  color: #8a8faa;
+  font-size: 14px;
+}
+
+/* GRID */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+  margin-bottom: 22px;
+}
+
+/* CARD */
+.stat-card {
+  background: rgba(255, 255, 255, 0.92);
+  border-radius: 22px;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.07);
+  border: 1px solid rgba(216, 164, 180, 0.1);
+  padding: 20px;
+}
+
+.stat-card h3 {
+  font-size: 12px;
+  color: #b0a8b8;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 10px;
+}
+
+.stat-value {
+  font-size: 28px;
+  font-weight: 700;
+  color: #2f3552;
+}
+
+.stat-subtext {
+  font-size: 14px;
+  color: #6a7090;
+  margin-top: 6px;
+  line-height: 1.5;
+}
+
+/* TABLE */
+.stats-table-wrap {
+  background: rgba(255, 255, 255, 0.92);
+  border-radius: 22px;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.07);
+  border: 1px solid rgba(216, 164, 180, 0.1);
+  padding: 20px;
+  margin-bottom: 22px;
+}
+
+.stats-table-wrap h2 {
+  font-family: 'Playfair Display', serif;
+  margin-bottom: 16px;
+}
+
+.stats-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.stats-table th,
+.stats-table td {
+  text-align: left;
+  padding: 12px 10px;
+  border-bottom: 1px solid rgba(216, 164, 180, 0.15);
+  font-size: 14px;
+}
+
+.stats-table th {
+  color: #b0a8b8;
+  text-transform: uppercase;
+  font-size: 12px;
+}
+
+/* CHART PLACEHOLDER */
+.chart-placeholder {
+  background: rgba(255, 255, 255, 0.92);
+  border-radius: 22px;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.07);
+  border: 1px solid rgba(216, 164, 180, 0.1);
+  padding: 20px;
+}
+
+.chart-placeholder h2 {
+  font-family: 'Playfair Display', serif;
+  margin-bottom: 10px;
+}
+
+.chart-placeholder p {
+  color: #8a8faa;
+}
+
+/* RESPONSIVE */
+@media (max-width: 900px) {
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+}

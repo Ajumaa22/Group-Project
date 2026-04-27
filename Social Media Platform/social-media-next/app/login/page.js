@@ -1,4 +1,6 @@
-import { useRouter } from "next/router";
+"use client";
+import "./style.css";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 
 export default function LoginPage() {
@@ -26,7 +28,7 @@ export default function LoginPage() {
   }
 
   localStorage.setItem("currentUser", JSON.stringify(data));
-  router.push("/posts");
+  router.push("/");
 }
 
   return (
