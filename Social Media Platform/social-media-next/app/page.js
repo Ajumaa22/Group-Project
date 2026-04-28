@@ -8,6 +8,7 @@ import Link from "next/link";
 
 
 export default function HomePage() {
+    const [loading, setLoading] = useState(true);
     const router = useRouter();
     const pathname = usePathname();
 
@@ -23,18 +24,16 @@ export default function HomePage() {
     const [posts, setPosts] = useState([]);
 
   useEffect(() => {
-    const storedUser = localStorage.getItem("currentUser");
+  const storedUser = localStorage.getItem("currentUser");
 
-    if (!storedUser) {
-      router.push("/login");
-      return;
-    }
+  if (!storedUser) {
+    router.push("/login");
+  } else {
+    setUser(JSON.parse(storedUser));
+  }
 
-    const parsedUser = JSON.parse(storedUser);
-    setUser(parsedUser);
-
-    loadPosts();
-  }, []);
+  setLoading(false);
+}, []);
 
   async function loadPosts() {
   try {
@@ -93,7 +92,9 @@ export default function HomePage() {
   }
 
   const username = user?.username || user?.name || user?.email || "User";
-
+  if (loading) {
+  return null;
+}
   return (
     <div className="page-shell">
       <header id="navbar">
