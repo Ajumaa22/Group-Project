@@ -36,7 +36,7 @@ export default function LoginPage() {
       <section className="auth-card">
         
         <div className="logo">
-          <img src="/Icons/IMG_0999.PNG" alt="Momenta logo" />
+          <img src="/new_logo.png"  alt="Momenta logo" />
         </div>
 
         <div className="title-row">
