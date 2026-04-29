@@ -479,6 +479,46 @@ body::before {
   font-weight: 500;
 }
 
+.retweet-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  border: 1.5px solid rgba(216, 164, 180, 0.3);
+  background: transparent;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 13px;
+  font-family: 'DM Sans', sans-serif;
+  color: #8a8faa;
+  padding: 6px 14px;
+  border-radius: 20px;
+  transition: all 0.2s;
+}
+.retweet-label {
+  margin: 0 18px 8px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #8a8faa;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.retweet-btn:hover {
+  background: #fce8ef;
+  border-color: #d8a4b4;
+  color: #c68c9f;
+}
+
+.retweet-btn.active {
+  background: #fce8ef;
+  border-color: #d8a4b4;
+  color: #c68c9f;
+}
+.retweet-count {
+  font-size: 13px;
+  color: #b0a8b8;
+  font-weight: 500;
+}
 
 /* ------------------- COMMENTS ------------------- */
 .comments-section {
@@ -668,3 +708,38 @@ body::before {
     border-radius: 16px;
     margin-top: 12px;
 }
+.delete-post-btn,
+.delete-comment-btn {
+  opacity: 0;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: #c47a8a;
+  font-size: 15px;
+  font-weight: 700;
+  transition: opacity 0.2s, background 0.2s, transform 0.15s;
+}
+
+.delete-post-btn {
+  margin-left: auto;
+  padding: 6px 10px;
+  border-radius: 50%;
+}
+
+.delete-comment-btn {
+  margin-left: auto;
+  padding: 2px 8px;
+  border-radius: 12px;
+}
+
+.post-card:hover .delete-post-btn,
+.comment-item:hover .delete-comment-btn {
+  opacity: 1;
+}
+
+.delete-post-btn:hover,
+.delete-comment-btn:hover {
+  background: rgba(196, 122, 138, 0.12);
+  transform: scale(1.05);
+}
+
