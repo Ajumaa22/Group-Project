@@ -11,3 +11,36 @@ body {
 body {
   min-height: 100vh;
 }
+
+#sidebar #mainNav,
+#sidebar #mainNav ul,
+#sidebar #mainNav li {
+  width: 100% !important;
+}
+
+#sidebar #mainNav ul {
+  display: flex !important;
+  flex-direction: column !important;
+  list-style: none !important;
+}
+
+#sidebar .nav-item {
+  width: 100% !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 12px !important;
+  padding: 12px 18px !important;
+  border-radius: 16px !important;
+  text-decoration: none !important;
+}
+
+#sidebar .nav-item.active {
+  width: 100% !important;
+  background: #f3d4df !important;
+  color: #c68c9f !important;
+}
+
+#sidebar #mainNav a {
+  color: inherit !important;
+  text-decoration: none !important;
+}

@@ -252,7 +252,12 @@ export default function HomePage() {
                 <div className="nav-icon">🏠</div>
                 <span>Home</span>
               </li>
-
+              <li>
+                <Link href="/profile" className="nav-item">
+                  <div className="nav-icon">👤</div>
+                  <span>Profile</span>
+                </Link>
+              </li>
               <li>
                 <Link href="/posts" className="nav-item">
                   <div className="nav-icon">📝</div>
@@ -273,7 +278,13 @@ export default function HomePage() {
             <h4>Following</h4>
             <ul id="followingList">
               <li className="following-item">
-                <span>{username}</span>
+                {/* <span>{users.filter((u) => u.id !== user?.id)
+                      .map((u) => (
+                        <li key={u.id} className="following-item">
+                          <span>{u.username}</span>
+                        </li>
+                      ))}
+                </span> */}
               </li>
             </ul>
           </div>
@@ -315,12 +326,14 @@ export default function HomePage() {
                       />
 
                       <div className="user-info">
+                        <Link href={`/profile/${post.user?.id}`}>
                         <span className="username">
                           {post.user?.username ||
                             post.author?.username ||
                             post.username ||
                             username}
                         </span>
+                        </Link>
 
                         <span className="post-time">
                           {post.createdAt
@@ -391,10 +404,10 @@ export default function HomePage() {
                             <div className="comment-item" key={comment.id}>
                               <div className="comment-body">
                                 <span className="comment-username">
-                                  {comment.user?.username || "User"}
+                                  {comment.user?.username || "User: "}: 
                                 </span>
                                 <span className="comment-text">
-                                  {comment.content || comment.text}
+                                   {comment.content || comment.text}
                                 </span>
                               </div>
 

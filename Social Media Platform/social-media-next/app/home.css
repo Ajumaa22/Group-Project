@@ -111,12 +111,13 @@ body::before {
   flex-shrink: 0;
   background: rgba(255, 255, 255, 0.88);
   border-radius: 22px;
-  padding: 20px 16px;
+  padding: 22px 18px;
   box-shadow: 0 8px 30px rgba(0, 0, 0, 0.06);
   border: 1px solid rgba(216, 164, 180, 0.12);
   height: fit-content;
   position: sticky;
   top: 80px;
+
 }
 
 #mainNav ul {
@@ -127,6 +128,7 @@ body::before {
   display: flex;
   align-items: center;
   gap: 12px;
+  margin-bottom: 8px;
   padding: 10px 12px;
   border-radius: 14px;
   cursor: pointer;
@@ -140,6 +142,7 @@ body::before {
 }
 
 .nav-item.active {
+  width: 100%;
   background: #f5d8e3;
   color: #c68c9f;
 }
@@ -743,3 +746,10 @@ body::before {
   transform: scale(1.05);
 }
 
+#mainNav {
+  background: transparent !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  box-shadow: none !important;
+  border: none !important;
+}
