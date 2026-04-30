@@ -14,7 +14,7 @@ export async function createPost(userId, content) {
       content,
     },
     include: {
-      user: { select: { id: true, username: true } },
+      user: { select: { id: true, username: true, avatar: true } },
       _count: { select: { likes: true, retweets: true, comments: true } },
     },
   });
@@ -28,7 +28,7 @@ export async function addComment(userId, postId, content) {
       content,
     },
     include: {
-      user: { select: { id: true, username: true } },
+      user: { select: { id: true, username: true, avatar: true } },
     },
   });
 }
@@ -93,7 +93,7 @@ export async function getPostById(postId) {
       id: Number(postId),
     },
     include: {
-      user: { select: { id: true, username: true } },
+      user: { select: { id: true, username: true, avatar: true } },
       comments: {
         include: { user: { select: { id: true, username: true } } },
         orderBy: { createdAt: "desc" },
@@ -107,7 +107,7 @@ export async function getAllPosts() {
   return prisma.post.findMany({
     orderBy: { createdAt: "desc" },
     include: {
-      user: { select: { id: true, username: true } },
+      user: { select: { id: true, username: true, avatar: true } },
 
       likes: true,
       retweets: true,

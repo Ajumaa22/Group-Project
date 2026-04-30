@@ -11,6 +11,9 @@ export default function PostsPage() {
 
   const [currentUser, setCurrentUser] = useState(null);
   const [posts, setPosts] = useState([]);
+  const [users, setUsers] = useState([]);
+  const [followingIds, setFollowingIds] = useState([]);
+  const [searchText, setSearchText] = useState("");
 
   useEffect(() => {
     const storedUser = localStorage.getItem("currentUser");
@@ -20,8 +23,12 @@ export default function PostsPage() {
       return;
     }
 
-    setCurrentUser(JSON.parse(storedUser));
+    const parsedUser = JSON.parse(storedUser);
+    setCurrentUser(parsedUser);
+
     loadPosts();
+    loadUsers();
+    loadFollowing(parsedUser.id);
   }, [router]);
 
   function handleLogoClick() {
@@ -40,23 +47,45 @@ export default function PostsPage() {
   async function loadPosts() {
     try {
       const response = await fetch("/api/posts");
-      const text = await response.text();
-
-      let data;
-      try {
-        data = JSON.parse(text);
-      } catch {
-        console.log("API did not return JSON:", text);
-        setPosts([]);
-        return;
-      }
-
+      const data = await response.json();
       setPosts(Array.isArray(data) ? data : []);
     } catch (error) {
       console.error("Error fetching posts:", error);
       setPosts([]);
     }
   }
+
+  async function loadUsers() {
+    try {
+      const response = await fetch("/api/users");
+      const data = await response.json();
+      setUsers(Array.isArray(data) ? data : []);
+    } catch (error) {
+      console.error("Error fetching users:", error);
+      setUsers([]);
+    }
+  }
+
+  async function loadFollowing(userId) {
+    try {
+      const response = await fetch(`/api/users/${userId}`);
+      const data = await response.json();
+
+      const ids = data.following?.map((f) => f.following?.id) || [];
+      setFollowingIds(ids);
+    } catch (error) {
+      console.error("Error fetching following:", error);
+      setFollowingIds([]);
+    }
+  }
+
+  const filteredUsers = users.filter((u) => {
+    const name = String(u.username || u.name || u.email || "");
+    return (
+      Number(u.id) !== Number(currentUser?.id) &&
+      name.toLowerCase().includes(searchText.trim().toLowerCase())
+    );
+  });
 
   const username =
     currentUser?.username || currentUser?.name || currentUser?.email || "User";
@@ -70,14 +99,52 @@ export default function PostsPage() {
           </h2>
         </div>
 
-        <div className="nav-center">
+        <div className="nav-center" style={{ position: "relative", zIndex: 999999 }}>
           <input
             type="search"
             id="searchInput"
             placeholder="Search users..."
             autoComplete="off"
+            value={searchText}
+            onChange={(e) => setSearchText(e.target.value)}
           />
-          <div id="searchResults"></div>
+
+          {searchText.trim() !== "" && (
+            <div
+              id="searchResults"
+              style={{
+                position: "absolute",
+                top: "45px",
+                left: "0",
+                width: "280px",
+                background: "white",
+                color: "black",
+                borderRadius: "12px",
+                padding: "10px",
+                zIndex: 999999,
+                boxShadow: "0 8px 20px rgba(0,0,0,0.2)",
+              }}
+            >
+              {filteredUsers.length === 0 ? (
+                <p style={{ margin: 0, color: "#777" }}>No users found</p>
+              ) : (
+                filteredUsers.map((u) => (
+                  <div
+                    key={u.id}
+                    onMouseDown={() => router.push(`/profile/${u.id}`)}
+                    style={{
+                      padding: "10px",
+                      cursor: "pointer",
+                      borderBottom: "1px solid #eee",
+                      fontWeight: "600",
+                    }}
+                  >
+                    {u.username || u.name || u.email}
+                  </div>
+                ))
+              )}
+            </div>
+          )}
         </div>
 
         <div className="nav-right">
@@ -98,12 +165,14 @@ export default function PostsPage() {
                   <span>Home</span>
                 </Link>
               </li>
+
               <li>
-              <Link href="/profile" className="nav-item">
-                <div className="nav-icon">👤</div>
-                <span>Profile</span>
-              </Link>
+                <Link href="/profile" className="nav-item">
+                  <div className="nav-icon">👤</div>
+                  <span>Profile</span>
+                </Link>
               </li>
+
               <li className="nav-item active">
                 <div className="nav-icon">📝</div>
                 <span>Posts</span>
@@ -120,16 +189,21 @@ export default function PostsPage() {
 
           <div id="followingSection">
             <h4>Following</h4>
+
             <ul id="followingList">
-              <li className="following-item">
-                {/* <span>{users.filter((u) => u.id !== user?.id)
-                      .map((u) => (
-                        <li key={u.id} className="following-item">
-                          <span>{u.username}</span>
-                        </li>
-                      ))}
-                </span> */}
-              </li>
+              {users.filter((u) => followingIds.includes(u.id)).length === 0 ? (
+                <li className="following-empty">Not following anyone yet</li>
+              ) : (
+                users
+                  .filter((u) => followingIds.includes(u.id))
+                  .map((u) => (
+                    <li key={u.id} className="following-item">
+                      <Link href={`/profile/${u.id}`}>
+                        {u.username || u.name || u.email}
+                      </Link>
+                    </li>
+                  ))
+              )}
             </ul>
           </div>
         </aside>
@@ -146,18 +220,20 @@ export default function PostsPage() {
                 <article className="post-card" key={post.id}>
                   <div className="post-header">
                     <img
-                      src="/Icons/user-round (1).svg"
+                      src={post.user?.avatar || "/Icons/user-round (1).svg"}
                       className="profile-img"
                       alt="profile"
                     />
 
                     <div className="user-info">
-                      <span className="username">
-                        {post.user?.username ||
-                          post.author?.username ||
-                          post.username ||
-                          "Unknown"}
-                      </span>
+                      <Link href={`/profile/${post.user?.id}`}>
+                        <span className="username">
+                          {post.user?.username ||
+                            post.author?.username ||
+                            post.username ||
+                            "Unknown"}
+                        </span>
+                      </Link>
 
                       <span className="post-time">
                         {post.createdAt
@@ -181,7 +257,7 @@ export default function PostsPage() {
                       {post.comments?.length > 0 ? (
                         post.comments.map((comment, index) => (
                           <p key={index}>
-                            {comment.user?.username || "User"}:{": "}
+                            {comment.user?.username || "User"}:{" "}
                             {comment.content || comment.text}
                           </p>
                         ))

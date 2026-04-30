@@ -1,118 +1,103 @@
-const { PrismaClient } = require('@prisma/client');
-const prisma = new PrismaClient();
+import { PrismaClient } from "@prisma/client";
+import { PrismaBetterSqlite3 } from "@prisma/adapter-better-sqlite3";
 
+const adapter = new PrismaBetterSqlite3({
+  url: process.env.DATABASE_URL,
+});
 
+const prisma = new PrismaClient({ adapter });
 
-// create user
-async function createUser(username, email, password) {
+export async function createUser(username, email, password) {
   return prisma.user.create({
-    data: { username, email, password }
+    data: { username, email, password },
   });
 }
 
-// get all users
-async function getAllUsers() {
+export async function getAllUsers() {
   return prisma.user.findMany({
     select: {
       id: true,
       username: true,
       bio: true,
       avatar: true,
-      createdAt: true
-    }
+      createdAt: true,
+    },
   });
 }
 
-// get user by id (with followers/following)
-async function getUserById(userId) {
+export async function getUserById(userId) {
   return prisma.user.findUnique({
-    where: { id: userId },
+    where: { id: Number(userId) },
     include: {
       followers: {
         include: {
           follower: {
-            select: { id: true, username: true }
-          }
-        }
+            select: { id: true, username: true },
+          },
+        },
       },
       following: {
         include: {
           following: {
-            select: { id: true, username: true }
-          }
-        }
-      }
-    }
+            select: { id: true, username: true },
+          },
+        },
+      },
+    },
   });
 }
 
-// update user
-async function updateUser(userId, data) {
+export async function updateUser(userId, data) {
   return prisma.user.update({
-    where: { id: userId },
-    data
+    where: { id: Number(userId) },
+    data,
   });
 }
 
-// delete user
-async function deleteUser(userId) {
+export async function deleteUser(userId) {
   return prisma.user.delete({
-    where: { id: userId }
+    where: { id: Number(userId) },
   });
 }
 
-//
-//  FOLLOW FUNCTIONS
-//
-
-async function followUser(followerId, followingId) {
+export async function followUser(followerId, followingId) {
   return prisma.follow.create({
-    data: { followerId, followingId }
+    data: {
+      followerId: Number(followerId),
+      followingId: Number(followingId),
+    },
   });
 }
 
-async function unfollowUser(followerId, followingId) {
+export async function unfollowUser(followerId, followingId) {
   return prisma.follow.delete({
     where: {
       followerId_followingId: {
-        followerId,
-        followingId
-      }
-    }
+        followerId: Number(followerId),
+        followingId: Number(followingId),
+      },
+    },
   });
 }
 
-async function getFollowers(userId) {
+export async function getFollowers(userId) {
   return prisma.follow.findMany({
-    where: { followingId: userId },
+    where: { followingId: Number(userId) },
     include: {
       follower: {
-        select: { id: true, username: true }
-      }
-    }
+        select: { id: true, username: true },
+      },
+    },
   });
 }
 
-async function getFollowing(userId) {
+export async function getFollowing(userId) {
   return prisma.follow.findMany({
-    where: { followerId: userId },
+    where: { followerId: Number(userId) },
     include: {
       following: {
-        select: { id: true, username: true }
-      }
-    }
+        select: { id: true, username: true },
+      },
+    },
   });
 }
-
-module.exports = {
-  createUser,
-  getAllUsers,
-  getUserById,
-  updateUser,
-  deleteUser,
-
-  followUser,
-  unfollowUser,
-  getFollowers,
-  getFollowing,
-};

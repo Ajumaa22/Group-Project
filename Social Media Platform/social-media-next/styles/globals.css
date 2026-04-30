@@ -44,3 +44,6 @@ body {
   color: inherit !important;
   text-decoration: none !important;
 }
+.user-info a {
+  text-decoration: none;
+}

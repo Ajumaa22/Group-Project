@@ -12,6 +12,7 @@ export default function UserProfilePage() {
   const [currentUser, setCurrentUser] = useState(null);
   const [targetUser, setTargetUser] = useState(null);
   const [posts, setPosts] = useState([]);
+  const [isFollowing, setIsFollowing] = useState(false);
 
   useEffect(() => {
     const storedUser = localStorage.getItem("currentUser");
@@ -24,17 +25,26 @@ export default function UserProfilePage() {
     const parsedUser = JSON.parse(storedUser);
     setCurrentUser(parsedUser);
 
-    loadUser(id);
+    loadProfile(parsedUser.id, id);
     loadPosts(id);
-  }, [id]);
+  }, [id, router]);
 
-  async function loadUser(userId) {
+  async function loadProfile(currentUserId, targetUserId) {
     try {
-      const res = await fetch("/api/users");
-      const data = await res.json();
+      const targetRes = await fetch(`/api/users/${targetUserId}`);
+      const targetData = await targetRes.json();
+      setTargetUser(targetData);
 
-      const found = data.find((u) => u.id == userId);
-      setTargetUser(found);
+      const currentRes = await fetch(`/api/users/${currentUserId}`);
+      const currentData = await currentRes.json();
+
+      const following = currentData.following || [];
+
+      const alreadyFollowing = following.some(
+        (f) => f.following?.id === Number(targetUserId)
+      );
+
+      setIsFollowing(alreadyFollowing);
     } catch {
       setTargetUser(null);
     }
@@ -45,9 +55,9 @@ export default function UserProfilePage() {
       const res = await fetch("/api/posts");
       const data = await res.json();
 
-      const userPosts = data.filter(
-        (p) => p.user?.id == userId || p.userId == userId
-      );
+      const userPosts = Array.isArray(data)
+        ? data.filter((p) => p.user?.id == userId || p.userId == userId)
+        : [];
 
       setPosts(userPosts);
     } catch {
@@ -55,9 +65,30 @@ export default function UserProfilePage() {
     }
   }
 
+  async function handleFollowToggle() {
+    if (!currentUser || !targetUser) return;
+
+    const response = await fetch("/api/follow", {
+      method: isFollowing ? "DELETE" : "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        followerId: currentUser.id,
+        followingId: targetUser.id,
+      }),
+    });
+
+    if (response.ok) {
+      await loadProfile(currentUser.id, targetUser.id);
+    } else {
+      alert("Follow/unfollow failed");
+    }
+  }
+
   if (!targetUser) {
     return <p style={{ padding: "20px" }}>Loading profile...</p>;
-    }
+  }
 
   return (
     <div className="profile-page">
@@ -104,8 +135,11 @@ export default function UserProfilePage() {
             </div>
 
             {currentUser?.id !== targetUser.id && (
-              <button className="follow-btn">
-                Follow
+              <button
+                className={`follow-btn ${isFollowing ? "unfollow" : "follow"}`}
+                onClick={handleFollowToggle}
+              >
+                {isFollowing ? "Unfollow" : "Follow"}
               </button>
             )}
           </header>
@@ -121,10 +155,12 @@ export default function UserProfilePage() {
                   <strong>{targetUser.username}</strong>
                 </p>
 
-                <p>{post.content}</p>
+                <p>{post.content || post.text}</p>
 
                 <small>
-                  {new Date(post.createdAt).toLocaleString()}
+                  {post.createdAt
+                    ? new Date(post.createdAt).toLocaleString()
+                    : "Just now"}
                 </small>
               </article>
             ))

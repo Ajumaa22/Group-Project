@@ -13,6 +13,10 @@ export default function HomePage() {
   const [user, setUser] = useState(null);
   const [postText, setPostText] = useState("");
   const [posts, setPosts] = useState([]);
+  const [allPosts, setAllPosts] = useState([]);
+  const [users, setUsers] = useState([]);
+  const [followingIds, setFollowingIds] = useState([]);
+  const [searchText, setSearchText] = useState("");
 
   useEffect(() => {
     const storedUser = localStorage.getItem("currentUser");
@@ -24,8 +28,10 @@ export default function HomePage() {
 
     const parsedUser = JSON.parse(storedUser);
     setUser(parsedUser);
+
+    loadUsers();
+    loadFollowingAndPosts(parsedUser.id);
     setLoading(false);
-    loadPosts();
   }, [router]);
 
   function handleLogoClick() {
@@ -41,23 +47,39 @@ export default function HomePage() {
     router.push("/login");
   }
 
-  async function loadPosts() {
+  async function loadUsers() {
     try {
-      const response = await fetch("/api/posts");
-      const text = await response.text();
+      const res = await fetch("/api/users");
+      const data = await res.json();
+      setUsers(Array.isArray(data) ? data : []);
+    } catch {
+      setUsers([]);
+    }
+  }
 
-      let data;
-      try {
-        data = JSON.parse(text);
-      } catch {
-        console.log("API /api/posts did not return JSON:", text);
-        setPosts([]);
-        return;
-      }
+  async function loadFollowingAndPosts(userId) {
+    try {
+      const userRes = await fetch(`/api/users/${userId}`);
+      const userData = await userRes.json();
 
-      setPosts(Array.isArray(data) ? data : []);
+      const ids =
+        userData.following?.map((f) => f.following?.id) || [];
+
+      setFollowingIds(ids);
+
+      const postsRes = await fetch("/api/posts");
+      const postsData = await postsRes.json();
+
+      const safePosts = Array.isArray(postsData) ? postsData : [];
+      setAllPosts(safePosts);
+
+      const filteredPosts = safePosts.filter(
+        (post) => ids.includes(post.user?.id) || post.user?.id === userId
+      );
+
+      setPosts(filteredPosts);
     } catch (error) {
-      console.error("Error loading posts:", error);
+      console.error("Error loading feed:", error);
       setPosts([]);
     }
   }
@@ -65,39 +87,22 @@ export default function HomePage() {
   async function handleCreatePost() {
     if (!postText.trim() || !user?.id) return;
 
-    try {
-      const response = await fetch("/api/posts", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          userId: user.id,
-          content: postText,
-        }),
-      });
+    const response = await fetch("/api/posts", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        userId: user.id,
+        content: postText,
+      }),
+    });
 
-      const text = await response.text();
-
-      if (!response.ok) {
-        console.log("Post API error:", text);
-        alert("Post could not be created. Please check the posts API.");
-        return;
-      }
-
-      let newPost;
-      try {
-        newPost = JSON.parse(text);
-      } catch {
-        console.log("Post API did not return JSON:", text);
-        return;
-      }
-
-      setPosts([newPost, ...posts]);
+    if (response.ok) {
       setPostText("");
-    } catch (error) {
-      console.error("Error creating post:", error);
-      alert("Something went wrong while creating the post.");
+      loadFollowingAndPosts(user.id);
+    } else {
+      alert("Post could not be created.");
     }
   }
 
@@ -113,7 +118,7 @@ export default function HomePage() {
     });
 
     if (response.ok) {
-      loadPosts();
+      loadFollowingAndPosts(user.id);
     } else {
       alert("Delete post failed");
     }
@@ -131,15 +136,13 @@ export default function HomePage() {
     });
 
     if (response.ok) {
-      loadPosts();
+      loadFollowingAndPosts(user.id);
     } else {
       alert("Delete comment failed");
     }
   }
 
   async function handleToggleLike(post) {
-    if (!user?.id) return;
-
     const alreadyLiked = post.likes?.some((like) => like.userId === user.id);
 
     const response = await fetch("/api/likes", {
@@ -154,66 +157,60 @@ export default function HomePage() {
     });
 
     if (response.ok) {
-      loadPosts();
-    } else {
-      alert("Like/Unlike failed");
+      loadFollowingAndPosts(user.id);
     }
   }
 
   async function handleToggleRetweet(post) {
-  if (!user?.id) return;
+    const alreadyRetweeted = post.retweets?.some(
+      (r) => r.userId === user.id
+    );
 
-  const alreadyRetweeted = post.retweets?.some(
-    (r) => r.userId === user.id
-  );
+    const response = await fetch("/api/retweets", {
+      method: alreadyRetweeted ? "DELETE" : "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        userId: user.id,
+        postId: post.id,
+      }),
+    });
 
-  const response = await fetch("/api/retweets", {
-    method: alreadyRetweeted ? "DELETE" : "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      userId: user.id,
-      postId: post.id,
-    }),
-  });
-
-  if (response.ok) {
-    loadPosts();
-  } else {
-    alert("Retweet failed");
-  }
-}
-
-  async function handleComment(postId, content) {
-    if (!user?.id || !content.trim()) return;
-
-    try {
-      const response = await fetch("/api/comments", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          userId: user.id,
-          postId,
-          content,
-        }),
-      });
-
-      if (response.ok) {
-        loadPosts();
-      } else {
-        const errorText = await response.text();
-        console.log("Comment API error:", errorText);
-        alert("Comment failed. Please check the comments API.");
-      }
-    } catch (error) {
-      console.error("Error adding comment:", error);
+    if (response.ok) {
+      loadFollowingAndPosts(user.id);
     }
   }
 
-  const username = user?.username || user?.name || user?.email || "User";
+  async function handleComment(postId, content) {
+    if (!content.trim()) return;
+
+    const response = await fetch("/api/comments", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        userId: user.id,
+        postId,
+        content,
+      }),
+    });
+
+    if (response.ok) {
+      loadFollowingAndPosts(user.id);
+    }
+  }
+
+  const filteredUsers = users.filter((u) => {
+    const name = String(u.username || u.name || u.email || "");
+    const currentUserId = Number(user?.id);
+    const searchedText = searchText.trim().toLowerCase();
+
+    return Number(u.id) !== currentUserId && name.toLowerCase().includes(searchedText);
+  });
+
+  const username = user?.username || "User";
 
   if (loading) return null;
 
@@ -226,14 +223,33 @@ export default function HomePage() {
           </h2>
         </div>
 
-        <div className="nav-center">
+        <div className="nav-center" style={{ position: "relative", zIndex: 999999 }}>
           <input
             type="search"
             id="searchInput"
             placeholder="Search users..."
             autoComplete="off"
+            value={searchText}
+            onChange={(e) => setSearchText(e.target.value)}
           />
-          <div id="searchResults"></div>
+
+          {searchText.trim() !== "" && (
+          <div id="searchResults">
+            {filteredUsers.length === 0 ? (
+              <p className="search-empty">No users found</p>
+            ) : (
+              filteredUsers.map((u) => (
+                <div
+                  key={u.id}
+                  className="search-result-item"
+                  onMouseDown={() => router.push(`/profile/${u.id}`)}
+                >
+                  {u.username || u.name || u.email}
+                </div>
+              ))
+            )}
+          </div>
+        )}
         </div>
 
         <div className="nav-right">
@@ -252,12 +268,14 @@ export default function HomePage() {
                 <div className="nav-icon">🏠</div>
                 <span>Home</span>
               </li>
+
               <li>
                 <Link href="/profile" className="nav-item">
                   <div className="nav-icon">👤</div>
                   <span>Profile</span>
                 </Link>
               </li>
+
               <li>
                 <Link href="/posts" className="nav-item">
                   <div className="nav-icon">📝</div>
@@ -277,15 +295,13 @@ export default function HomePage() {
           <div id="followingSection">
             <h4>Following</h4>
             <ul id="followingList">
-              <li className="following-item">
-                {/* <span>{users.filter((u) => u.id !== user?.id)
-                      .map((u) => (
-                        <li key={u.id} className="following-item">
-                          <span>{u.username}</span>
-                        </li>
-                      ))}
-                </span> */}
-              </li>
+              {users
+                .filter((u) => followingIds.includes(u.id))
+                .map((u) => (
+                  <li key={u.id} className="following-item">
+                    <Link href={`/profile/${u.id}`}>{u.username}</Link>
+                  </li>
+                ))}
             </ul>
           </div>
         </aside>
@@ -307,32 +323,26 @@ export default function HomePage() {
           <section id="postsContainer">
             {posts.length === 0 ? (
               <p className="no-posts-msg">
-                No posts available yet. Create your first post.
+                Follow users to see their posts here.
               </p>
             ) : (
               posts.map((post) => {
                 const isOwnPost = post.user?.id === user?.id;
-                const isLiked = post.likes?.some(
-                  (like) => like.userId === user?.id
-                );
 
                 return (
                   <article className="post-card" key={post.id}>
                     <div className="post-header">
                       <img
                         className="profile-img"
-                        src="/Icons/user-round (1).svg"
+                        src={post.user?.avatar || "/Icons/user-round (1).svg"}
                         alt="profile"
                       />
 
                       <div className="user-info">
                         <Link href={`/profile/${post.user?.id}`}>
-                        <span className="username">
-                          {post.user?.username ||
-                            post.author?.username ||
-                            post.username ||
-                            username}
-                        </span>
+                          <span className="username">
+                            {post.user?.username || username}
+                          </span>
                         </Link>
 
                         <span className="post-time">
@@ -346,56 +356,49 @@ export default function HomePage() {
                         <button
                           className="delete-post-btn"
                           onClick={() => handleDeletePost(post.id)}
-                          title="Delete post"
                         >
-                          🗑
+                          ✕
                         </button>
                       )}
                     </div>
-                    {post.retweets?.some((r) => r.userId === user?.id) &&
-                      post.user?.id !== user?.id && (
-                        <div className="retweet-label">
-                          🔁 You retweeted this
-                        </div>
-                    )}
+
                     <p className="post-text">{post.content || post.text}</p>
 
                     <div className="post-actions">
+                      <button
+                        className={
+                          post.likes?.some((l) => l.userId === user?.id)
+                            ? "like-btn liked"
+                            : "like-btn"
+                        }
+                        onClick={() => handleToggleLike(post)}
+                      >
+                        {post.likes?.some((l) => l.userId === user?.id)
+                          ? "👍 Unlike"
+                          : "👍 Like"}
+                      </button>
 
-                    <button
-                      className={
-                        post.likes?.some((l) => l.userId === user?.id)
-                          ? "like-btn liked"
-                          : "like-btn"
-                      }
-                      onClick={() => handleToggleLike(post)}
-                    >
-                      {post.likes?.some((l) => l.userId === user?.id)
-                        ? "👍 Unlike"
-                        : "👍 Like"}
-                    </button>
+                      <span className="like-count">
+                        {post._count?.likes || post.likes?.length || 0}
+                      </span>
 
-                    <span className="like-count">
-                      {post._count?.likes || post.likes?.length || 0}
-                    </span>
-                    <button
-                      className={
-                        post.retweets?.some((r) => r.userId === user?.id)
-                          ? "retweet-btn active"
-                          : "retweet-btn"
-                      }
-                      onClick={() => handleToggleRetweet(post)}
-                    >
-                      {post.retweets?.some((r) => r.userId === user?.id)
-                        ? "🔁 Undo"
-                        : "🔁 Retweet"}
-                    </button>
+                      <button
+                        className={
+                          post.retweets?.some((r) => r.userId === user?.id)
+                            ? "retweet-btn active"
+                            : "retweet-btn"
+                        }
+                        onClick={() => handleToggleRetweet(post)}
+                      >
+                        {post.retweets?.some((r) => r.userId === user?.id)
+                          ? "🔁 Undo"
+                          : "🔁 Retweet"}
+                      </button>
 
-                    <span className="retweet-count">
-                      {post._count?.retweets || post.retweets?.length || 0}
-                    </span>
-
-                  </div>
+                      <span className="retweet-count">
+                        {post._count?.retweets || post.retweets?.length || 0}
+                      </span>
+                    </div>
 
                     <div className="comments-section">
                       <div className="comments-list">
@@ -404,10 +407,12 @@ export default function HomePage() {
                             <div className="comment-item" key={comment.id}>
                               <div className="comment-body">
                                 <span className="comment-username">
-                                  {comment.user?.username || "User: "}: 
+                                  {comment.user?.username || "User"}:
                                 </span>
+
                                 <span className="comment-text">
-                                   {comment.content || comment.text}
+                                  {" "}
+                                  {comment.content || comment.text}
                                 </span>
                               </div>
 
@@ -417,7 +422,6 @@ export default function HomePage() {
                                   onClick={() =>
                                     handleDeleteComment(comment.id)
                                   }
-                                  title="Delete comment"
                                 >
                                   ×
                                 </button>
