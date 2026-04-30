@@ -98,7 +98,12 @@ export default function PostsPage() {
                   <span>Home</span>
                 </Link>
               </li>
-
+              <li>
+              <Link href="/profile" className="nav-item">
+                <div className="nav-icon">👤</div>
+                <span>Profile</span>
+              </Link>
+              </li>
               <li className="nav-item active">
                 <div className="nav-icon">📝</div>
                 <span>Posts</span>
@@ -117,7 +122,13 @@ export default function PostsPage() {
             <h4>Following</h4>
             <ul id="followingList">
               <li className="following-item">
-                <span>{username}</span>
+                {/* <span>{users.filter((u) => u.id !== user?.id)
+                      .map((u) => (
+                        <li key={u.id} className="following-item">
+                          <span>{u.username}</span>
+                        </li>
+                      ))}
+                </span> */}
               </li>
             </ul>
           </div>
@@ -170,7 +181,7 @@ export default function PostsPage() {
                       {post.comments?.length > 0 ? (
                         post.comments.map((comment, index) => (
                           <p key={index}>
-                            {comment.user?.username || "User"}:{" "}
+                            {comment.user?.username || "User"}:{": "}
                             {comment.content || comment.text}
                           </p>
                         ))

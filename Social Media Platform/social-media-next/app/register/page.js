@@ -42,7 +42,7 @@ export default function RegisterPage() {
     <main className="auth-page">
       <section className="auth-card">
         <div className="logo">
-          <img src="/icons/IMG_0999.PNG" alt="Momenta logo" />
+          <img src="/new_logo.png" alt="Momenta logo" className="auth-logo"/>
         </div>
 
         <div className="title-row">

@@ -661,3 +661,27 @@ body {
     border-radius: 16px;
     margin-top: 12px;
 }
+.nav-item {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  border-radius: 16px;
+}
+
+.nav-item.active {
+  width: 100%;
+  background: #f3d4df;
+  color: #c68c9f;
+}
+
+#mainNav li {
+  width: 100%;
+  list-style: none;
+}
+
+#mainNav a {
+  text-decoration: none;
+  color: inherit;
+}
