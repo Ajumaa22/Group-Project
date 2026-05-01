@@ -20,8 +20,12 @@ export default function ProfilePage() {
     }
 
     const parsedUser = JSON.parse(storedUser);
-    setUser(parsedUser);
-    loadPosts(parsedUser.id);
+
+fetch(`/api/users/${parsedUser.id}`)
+  .then((res) => res.json())
+  .then((data) => setUser(data));
+
+loadPosts(parsedUser.id);
   }, [router]);
 
   async function loadPosts(userId) {
@@ -78,14 +82,14 @@ export default function ProfilePage() {
 
             <div className="profile-details">
               <div className="profile-n">
-                <h2>0</h2>
+                <h2>{user.followers?.length || 0}</h2>
                 <p>Followers</p>
               </div>
 
               <div className="stat-divider"></div>
 
               <div className="profile-n">
-                <h2>0</h2>
+                <h2>{user.following?.length || 0}</h2>
                 <p>Following</p>
               </div>
 

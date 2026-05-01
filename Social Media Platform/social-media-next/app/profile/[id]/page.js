@@ -65,26 +65,35 @@ export default function UserProfilePage() {
     }
   }
 
-  async function handleFollowToggle() {
-    if (!currentUser || !targetUser) return;
+async function handleFollowToggle() {
+  if (!currentUser || !targetUser) return;
 
-    const response = await fetch("/api/follow", {
-      method: isFollowing ? "DELETE" : "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        followerId: currentUser.id,
-        followingId: targetUser.id,
-      }),
-    });
+  console.log("FOLLOW TEST:", {
+    followerId: currentUser.id,
+    followingId: targetUser.id,
+    isFollowing,
+  });
 
-    if (response.ok) {
-      await loadProfile(currentUser.id, targetUser.id);
-    } else {
-      alert("Follow/unfollow failed");
-    }
+  const response = await fetch("/api/follow", {
+    method: isFollowing ? "DELETE" : "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      followerId: currentUser.id,
+      followingId: targetUser.id,
+    }),
+  });
+
+  const text = await response.text();
+  console.log("FOLLOW RESPONSE:", response.status, text);
+
+  if (response.ok) {
+    await loadProfile(currentUser.id, targetUser.id);
+  } else {
+    alert("Follow/unfollow failed: " + text);
   }
+}
 
   if (!targetUser) {
     return <p style={{ padding: "20px" }}>Loading profile...</p>;
