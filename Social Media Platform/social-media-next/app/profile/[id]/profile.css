@@ -1,0 +1,191 @@
+/* ---------- GLOBAL ---------- */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  min-height: 100vh;
+  background: linear-gradient(160deg, #f9eef2 0%, #fdf8f9 50%, #f0eaf6 100%);
+  font-family: Arial, sans-serif;
+  color: #2f3552;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ---------- NAV ---------- */
+nav {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.88);
+  padding: 16px 32px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  backdrop-filter: blur(12px);
+  box-shadow: 0 2px 16px rgba(200, 140, 160, 0.1);
+}
+
+nav a {
+  color: #2f3552;
+  text-decoration: none;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+nav a:hover {
+  color: #c68c9f;
+}
+
+#logout-Btn {
+  background: #d8a4b4;
+  color: white;
+  border: none;
+  padding: 8px 18px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+#logout-Btn:hover {
+  background: #c68c9f;
+}
+
+/* ---------- MAIN ---------- */
+.profile-main {
+  max-width: 760px;
+  margin: 32px auto;
+  padding: 0 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* ---------- PROFILE CARD ---------- */
+.profile-card {
+  background: white;
+  border-radius: 22px;
+  padding: 28px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  text-align: center;
+}
+
+.profile-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+}
+
+.profile-pic {
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.profile-pic img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.profile-info h1 {
+  font-size: 22px;
+}
+
+.profile-info p {
+  font-size: 13px;
+  color: #666;
+}
+
+/* ---------- STATS ---------- */
+.profile-details {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 22px;
+  margin: 20px 0;
+}
+
+.profile-n {
+  text-align: center;
+}
+
+.profile-n h2 {
+  font-size: 16px;
+}
+
+.profile-n p {
+  font-size: 11px;
+  color: #777;
+}
+
+.stat-divider {
+  width: 1px;
+  height: 20px;
+  background: #e5d3d8;
+}
+
+/* ---------- FOLLOW BUTTON ---------- */
+.follow-btn {
+  border: none;
+  padding: 10px 28px;
+  border-radius: 999px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+/* FOLLOW */
+.follow-btn.follow {
+  background: #d9a3b3;
+  color: white;
+}
+
+.follow-btn.follow:hover {
+  background: #c98fa2;
+}
+
+/* UNFOLLOW */
+.follow-btn.unfollow {
+  background: #eee;
+  color: #444;
+}
+
+.follow-btn.unfollow:hover {
+  background: #c68c9f;
+  color: white;
+}
+
+/* ---------- POSTS ---------- */
+#postsContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.post-card {
+  background: white;
+  border-radius: 18px;
+  padding: 18px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.07);
+}
+
+.post-card p {
+  margin-bottom: 8px;
+}
+
+.post-card strong {
+  font-size: 14px;
+}
+
+.post-card small {
+  font-size: 12px;
+  color: #777;
+}
+
+.no-posts-msg {
+  text-align: center;
+  color: #999;
+}

@@ -1,5 +1,23 @@
+# Work Division (Updated)
+
+### **Aya – CSS & UI/UX Design**
+
+**Responsibilities:**
+
+* Design all pages: layout, colors, typography, spacing
+* Implement Instagram-style feed, story bar, sidebar
+* Make site responsive (desktop + mobile)
+* Implement dark mode toggle
+* Add hover effects, animations, smooth transitions
+
+**Files:**
+
+* `css/style.css`
+* Minor HTML adjustments for design purposes
+
 ---
-# 🧑‍💻 Work Division (Updated)
+
+
 
 ### **Maissa – Authentication & Session Management**
 
@@ -15,21 +33,6 @@
 
 * `register.html`, `login.html`
 * JS portions in `app.js` related to auth/session
----
-### **Aya – CSS & UI/UX Design**
-
-**Responsibilities:**
-
-* Design all pages: layout, colors, typography, spacing
-* Implement Instagram-style feed, story bar, sidebar
-* Make site responsive (desktop + mobile)
-* Implement dark mode toggle
-* Add hover effects, animations, smooth transitions
-
-**Files:**
-
-* `css/style.css`
-* Minor HTML adjustments for design purposes
 
 ---
 

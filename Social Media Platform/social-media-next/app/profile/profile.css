@@ -1,0 +1,289 @@
+/* ---------- GLOBAL ---------- */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  min-height: 100vh;
+  background: linear-gradient(160deg, #f9eef2 0%, #fdf8f9 50%, #f0eaf6 100%);
+  font-family: Arial, sans-serif;
+  color: #2f3552;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: url("/Icons/IMG_1041.PNG") no-repeat center/cover;
+  opacity: 0.35;
+  z-index: -1;
+}
+
+/* ---------- NAV ---------- */
+nav {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.88);
+  padding: 14px 32px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  backdrop-filter: blur(12px);
+  box-shadow: 0 2px 16px rgba(200, 140, 160, 0.1);
+}
+
+nav a {
+  color: #2f3552;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+nav a:hover {
+  color: #c68c9f;
+}
+
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+#logout-Btn {
+  background: #d8a4b4;
+  color: white;
+  border: none;
+  padding: 8px 18px;
+  border-radius: 20px;
+  cursor: pointer;
+}
+
+#logout-Btn:hover {
+  background: #c68c9f;
+}
+
+/* ---------- PROFILE ---------- */
+.profile-page {
+  min-height: 100vh;
+  background: #f7eeee;
+}
+
+.profile-main {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 32px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.profile-card {
+  background: white;
+  border-radius: 20px;
+  padding: 28px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  text-align: center;
+}
+
+.profile-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+}
+
+.profile-pic {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.profile-pic img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.profile-info h1 {
+  font-size: 20px;
+}
+
+.profile-info p {
+  font-size: 13px;
+  color: #666;
+}
+
+/* ---------- STATS ---------- */
+.profile-details {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  margin: 20px 0;
+}
+
+.profile-n {
+  text-align: center;
+}
+
+.profile-n h2 {
+  font-size: 16px;
+}
+
+.profile-n p {
+  font-size: 11px;
+  color: #777;
+}
+
+.stat-divider {
+  width: 1px;
+  height: 20px;
+  background: #e5d3d8;
+}
+
+/* ---------- FOLLOW BUTTON ---------- */
+.follow-btn {
+  border: none;
+  padding: 10px 28px;
+  border-radius: 999px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+/* Follow */
+.follow-btn.follow {
+  background: #d9a3b3;
+  color: white;
+}
+
+.follow-btn.follow:hover {
+  background: #c98fa2;
+}
+
+/* Unfollow */
+.follow-btn.unfollow {
+  background: #eee;
+  color: #444;
+}
+
+.follow-btn.unfollow:hover {
+  background: #c68c9f;
+  color: white;
+}
+
+/* ---------- POSTS ---------- */
+#postsContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.post-card {
+  background: white;
+  border-radius: 18px;
+  padding: 18px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.07);
+}
+
+.post-card p {
+  margin-bottom: 8px;
+}
+
+.post-card strong {
+  font-size: 14px;
+}
+
+.post-card small {
+  font-size: 12px;
+  color: #777;
+}
+
+.no-posts-msg {
+  text-align: center;
+  color: #999;
+}
+
+#edit-Btn {
+  margin-top: 14px;
+  border: none;
+  background: #d9a3b3;
+  color: white;
+  padding: 10px 28px;
+  border-radius: 999px;
+  font-weight: 700;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+#edit-Btn:hover {
+  background: #c98fa2;
+  transform: translateY(-1px);
+}
+
+.edit-profile-form {
+  margin-top: 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  text-align: left;
+}
+
+.edit-profile-form label {
+  font-size: 13px;
+  font-weight: 700;
+  color: #2f3552;
+}
+
+.edit-profile-form input,
+.edit-profile-form textarea {
+  width: 100%;
+  border: 1.5px solid #ead9df;
+  border-radius: 14px;
+  padding: 11px 14px;
+  outline: none;
+  font-family: inherit;
+  font-size: 14px;
+  color: #2f3552;
+  background: #fffafa;
+}
+
+.edit-profile-form input:focus,
+.edit-profile-form textarea:focus {
+  border-color: #d9a3b3;
+}
+
+.edit-profile-form textarea {
+  min-height: 100px;
+  resize: none;
+}
+
+.edit-avatar-preview {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 10px;
+}
+
+.edit-avatar-preview img {
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.save-profile-btn {
+  margin-top: 10px;
+  border: none;
+  background: #d9a3b3;
+  color: white;
+  padding: 11px 28px;
+  border-radius: 999px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.save-profile-btn:hover {
+  background: #c98fa2;
+}

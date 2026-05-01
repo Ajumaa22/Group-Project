@@ -33,7 +33,7 @@ export default function RegisterPage() {
     }
 
     localStorage.setItem("currentUser", JSON.stringify(data));
-    router.push("/posts");
+    router.push("/login");
   }
 
   return (

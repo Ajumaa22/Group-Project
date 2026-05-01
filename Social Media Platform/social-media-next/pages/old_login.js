@@ -26,7 +26,7 @@ export default function LoginPage() {
   }
 
   localStorage.setItem("currentUser", JSON.stringify(data));
-  router.push("/posts");
+  router.push("/");
 }
 
   return (
