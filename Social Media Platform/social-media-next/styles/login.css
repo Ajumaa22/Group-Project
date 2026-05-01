@@ -30,11 +30,12 @@ background: url("/icons/IMG_1041.PNG") no-repeat center/cover;
   position: relative;
 }
 .logo {
-  position: absolute;
-  top: -450px;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 1;
+    pointer-events: none;
+    position: absolute;
+    top: -450px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1;
 }
 .logo,
 .logo img {
