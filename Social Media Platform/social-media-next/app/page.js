@@ -58,32 +58,46 @@ export default function HomePage() {
   }
 
   async function loadFollowingAndPosts(userId) {
-    try {
-      const userRes = await fetch(`/api/users/${userId}`);
-      const userData = await userRes.json();
+  try {
+    const userRes = await fetch(`/api/users/${userId}`);
 
-      const ids =
-        userData.following?.map((f) => f.following?.id) || [];
-
-      setFollowingIds(ids);
-
-      const postsRes = await fetch("/api/posts");
-      const postsData = await postsRes.json();
-
-      const safePosts = Array.isArray(postsData) ? postsData : [];
-      setAllPosts(safePosts);
-
-      const filteredPosts = safePosts.filter(
-        (post) => ids.includes(post.user?.id) || post.user?.id === userId
-      );
-
-      setPosts(filteredPosts);
-    } catch (error) {
-      console.error("Error loading feed:", error);
+    if (!userRes.ok) {
+      console.log("User API failed:", await userRes.text());
+      setFollowingIds([]);
       setPosts([]);
+      return;
     }
-  }
 
+    const userText = await userRes.text();
+    const userData = userText ? JSON.parse(userText) : null;
+
+    const ids = userData?.following?.map((f) => f.following?.id) || [];
+    setFollowingIds(ids);
+
+    const postsRes = await fetch("/api/posts");
+
+    if (!postsRes.ok) {
+      console.log("Posts API failed:", await postsRes.text());
+      setPosts([]);
+      return;
+    }
+
+    const postsText = await postsRes.text();
+    const postsData = postsText ? JSON.parse(postsText) : [];
+
+    const safePosts = Array.isArray(postsData) ? postsData : [];
+
+    const filteredPosts = safePosts.filter(
+      (post) => ids.includes(post.user?.id) || post.user?.id === userId
+    );
+
+    setPosts(filteredPosts);
+  } catch (error) {
+    console.error("Error loading feed:", error);
+    setFollowingIds([]);
+    setPosts([]);
+  }
+}
   async function handleCreatePost() {
     if (!postText.trim() || !user?.id) return;
 

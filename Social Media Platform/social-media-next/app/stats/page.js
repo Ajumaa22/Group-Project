@@ -4,6 +4,7 @@ import "./stats.css";
 import { useEffect, useState } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import { mockStats } from "../../data/mockStats";
+import {BarChart,Bar,XAxis,YAxis,Tooltip,ResponsiveContainer,CartesianGrid} from "recharts";
 
 export default function StatsPage() {
   const router = useRouter();
@@ -166,7 +167,29 @@ export default function StatsPage() {
 
         <div className="chart-placeholder">
           <h2>Engagement Chart</h2>
-          <p>Chart area prepared for final report screenshot.</p>
+          <p className="chart-subtitle">
+            Top users by total engagement, calculated from likes and comments.
+          </p>
+
+          <div className="chart-box">
+            <ResponsiveContainer width="100%" height={300}>
+              <BarChart
+                data={stats.totalEngagementPerUser || []}
+                margin={{ top: 20, right: 20, left: 0, bottom: 10 }}
+              >
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="username" />
+                <YAxis allowDecimals={false} />
+                <Tooltip />
+                <Bar
+                  dataKey="totalEngagement"
+                  name="Total Engagement"
+                  fill="#d8a4b4"
+                  radius={[10, 10, 0, 0]}
+                />
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
         </div>
       </section>
     </div>
