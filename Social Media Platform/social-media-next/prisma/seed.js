@@ -7,7 +7,7 @@ const prisma = new PrismaClient({
   }),
 });
 
-// 🔀 Helpers
+//Helpers
 const random = (arr) => arr[Math.floor(Math.random() * arr.length)];
 
 const randomUsername = () => {
@@ -18,13 +18,13 @@ const randomUsername = () => {
 
 const randomPost = () => {
   const texts = [
-    "Enjoying the day 🌞",
-    "Working on my project 💻",
-    "Just finished a workout 💪",
-    "Coffee time ☕",
-    "Learning something new 📚",
-    "Life is good ✨",
-    "Building something cool 🚀",
+    "Enjoying the day",
+    "Working on my project",
+    "Just finished a workout",
+    "Coffee time",
+    "Learning something new",
+    "Life is good",
+    "Building something cool",
     "Any recommendations?",
     "Feeling productive today!",
     "What a busy day!"
@@ -33,7 +33,7 @@ const randomPost = () => {
 };
 
 async function main() {
-  // 🧹 Clean DB
+  // Clean DB
   await prisma.retweet.deleteMany();
   await prisma.like.deleteMany();
   await prisma.comment.deleteMany();
@@ -66,7 +66,7 @@ async function main() {
     users.push(user);
   }
 
-  // 📝 Create posts
+  //Create posts
   const posts = [];
   for (let i = 0; i < 80; i++) {
     const post = await prisma.post.create({
@@ -79,7 +79,7 @@ async function main() {
     posts.push(post);
   }
 
-  // 🔗 Follows
+  //Follows
   const followSet = new Set();
 
   for (let i = 0; i < 120; i++) {
@@ -103,7 +103,7 @@ async function main() {
     }
   }
 
-  // ❤️ Likes
+  // Likes
   const likeSet = new Set();
 
   for (let i = 0; i < 250; i++) {
@@ -125,7 +125,7 @@ async function main() {
     }
   }
 
-  // 💬 Comments
+  //Comments
   const comments = [
     "Nice post!",
     "Love this!",
@@ -133,8 +133,8 @@ async function main() {
     "Great idea!",
     "So true!",
     "Thanks for sharing!",
-    "Amazing 🔥",
-    "Helpful 👌",
+    "Amazing",
+    "Helpful",
   ];
 
   for (let i = 0; i < 150; i++) {
@@ -147,7 +147,7 @@ async function main() {
     });
   }
 
-  // 🔁 Retweets
+  //Retweets
   const retweetSet = new Set();
 
   for (let i = 0; i < 120; i++) {
