@@ -1,3 +1,4 @@
+export const dynamic = "force-dynamic";
 import prisma from "@/repository/prisma";
 
 export async function POST(request) {

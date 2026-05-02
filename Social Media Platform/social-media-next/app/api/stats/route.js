@@ -1,3 +1,4 @@
+export const dynamic = "force-dynamic";
 import { getStats } from "@/repository/statsRepo";
 
 export async function GET() {
