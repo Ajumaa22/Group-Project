@@ -246,7 +246,7 @@ export default function PostsPage() {
                     />
 
                     <div className="user-info">
-                      <Link href={`/profile/${post.user?.id}`}>
+                      <Link  href={`/profile/${post.user?.id}`}>
                         <span className="username">
                           {post.user?.username ||
                             post.author?.username ||
