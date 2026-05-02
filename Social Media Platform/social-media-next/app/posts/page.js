@@ -89,7 +89,27 @@ export default function PostsPage() {
 
   const username =
     currentUser?.username || currentUser?.name || currentUser?.email || "User";
+  async function handleComment(postId, content) {
+    if (!currentUser?.id || !content.trim()) return;
 
+    const response = await fetch("/api/comments", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        userId: currentUser.id,
+        postId,
+        content,
+      }),
+    });
+
+    if (response.ok) {
+      loadPosts();
+    } else {
+      alert("Comment failed");
+    }
+  }
   return (
     <div className="page-shell">
       <header id="navbar">
@@ -269,6 +289,12 @@ export default function PostsPage() {
                     <input
                       className="comment-input"
                       placeholder="Write a comment..."
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter") {
+                          handleComment(post.id, e.currentTarget.value);
+                          e.currentTarget.value = "";
+                        }
+                      }}
                     />
                   </div>
                 </article>
