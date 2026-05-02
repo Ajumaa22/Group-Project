@@ -1,4 +1,4 @@
-import prisma from "@/repos/prisma";
+import prisma from "@/repository/prisma";
 
 export async function createUser(username, email, password) {
   return prisma.user.create({

@@ -1,4 +1,4 @@
-import prisma from "@/repos/prisma";
+import prisma from "@/repository/prisma";
 
 export async function getStats() {
   const userCount = await prisma.user.count();
