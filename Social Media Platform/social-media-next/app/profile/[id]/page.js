@@ -56,7 +56,12 @@ export default function UserProfilePage() {
       const data = await res.json();
 
       const userPosts = Array.isArray(data)
-        ? data.filter((p) => p.user?.id == userId || p.userId == userId)
+        ? data.filter(
+            (post) =>
+              post.user?.id === Number(userId) ||
+              post.userId === Number(userId) ||
+              post.retweets?.some((r) => r.userId === Number(userId))
+          )
         : [];
 
       setPosts(userPosts);
@@ -160,8 +165,13 @@ async function handleFollowToggle() {
           ) : (
             posts.map((post) => (
               <article className="post-card" key={post.id}>
+                {post.retweets?.some((r) => r.userId === Number(targetUser.id)) &&
+                  post.user?.id !== Number(targetUser.id) && (
+                    <p className="retweet-label">🔁 Retweeted by {targetUser.username}</p>
+                )}
+
                 <p>
-                  <strong>{targetUser.username}</strong>
+                  <strong>{post.user?.username || "Unknown"}</strong>
                 </p>
 
                 <p>{post.content || post.text}</p>

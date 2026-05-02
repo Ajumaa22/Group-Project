@@ -34,7 +34,12 @@ loadPosts(parsedUser.id);
       const data = await res.json();
 
       const userPosts = Array.isArray(data)
-        ? data.filter((post) => post.user?.id === userId || post.userId === userId)
+        ? data.filter(
+            (post) =>
+              post.user?.id === Number(userId) ||
+              post.userId === Number(userId) ||
+              post.retweets?.some((r) => r.userId === Number(userId))
+          )
         : [];
 
       setPosts(userPosts);
@@ -113,10 +118,17 @@ loadPosts(parsedUser.id);
           ) : (
             posts.map((post) => (
               <article className="post-card" key={post.id}>
+                {post.retweets?.some((r) => r.userId === Number(user.id)) &&
+                  post.user?.id !== Number(user.id) && (
+                    <p className="retweet-label">🔁 You retweeted</p>
+                )}
+
                 <p>
-                  <strong>{user.username}</strong>
+                  <strong>{post.user?.username || "Unknown"}</strong>
                 </p>
+
                 <p>{post.content || post.text}</p>
+
                 <small>
                   {post.createdAt
                     ? new Date(post.createdAt).toLocaleString()

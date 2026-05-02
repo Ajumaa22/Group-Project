@@ -12,7 +12,7 @@ export default function StatsPage() {
 
   const [currentUser, setCurrentUser] = useState(null);
   const [stats, setStats] = useState(mockStats);
-
+  
   useEffect(() => {
     const storedUser = localStorage.getItem("currentUser");
 
